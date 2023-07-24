@@ -75,7 +75,6 @@ export default {
 };
 </script>
   
-  <style>
-@import "@/assets/css/apple-style.css";
+<style>
 </style>
   

@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center">
     <h1 class="text-3xl font-bold mb-4">Login</h1>
-    <form class="flex flex-col mt-4 w-1/3">
+    <form class="flex flex-col mt-4 w-full md:w-1/3" @submit.prevent="loginUser">
       <label class="text-lg font-semibold mb-2" for="email">Email:</label>
       <input
         id="email"
@@ -11,9 +11,7 @@
         required
       />
 
-      <label class="text-lg font-semibold mb-2 mt-4" for="password"
-        >Password:</label
-      >
+      <label class="text-lg font-semibold mb-2 mt-4" for="password">Password:</label>
       <input
         id="password"
         v-model="password"
@@ -23,16 +21,26 @@
       />
 
       <button
-        @click.prevent="loginUser"
-        class="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4"
+        :disabled="!email || !password"
+        
+        class="bg-red-600 text-white px-6 py-3 rounded-lg mt-8"
       >
         Login
       </button>
+
+      <button
+        @click.prevent="$router.push('/register')"
+        class="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4"
+      >
+        No account? Register
+      </button>
+      
+      <p v-if="error" class="text-red-500 mt-4">{{ error }}</p>
     </form>
   </div>
 </template>
-  
-  <script>
+
+<script>
 import axios from "axios";
 import qs from "qs"; // You might need to install this package
 
@@ -41,10 +49,12 @@ export default {
     return {
       email: "",
       password: "",
+      error: ""
     };
   },
   methods: {
     async loginUser() {
+      this.error = "";
       try {
         const data = qs.stringify({
           grant_type: "",
@@ -70,20 +80,23 @@ export default {
           // Store the JWT in local storage
           localStorage.setItem("jwt", response.data.access_token);
           console.log("User logged in successfully!");
-          this.$router.push("/generated-content");
+          this.$router.push("/dashboard");
         } else {
-          console.error("Error logging in:", response.data.detail);
+          this.error = "Error logging in: " + response.data.detail;
         }
       } catch (error) {
-        console.error("Error logging in:", error);
+        this.error = "Error logging in: " + error;
       }
     },
   },
 };
 </script>
-  
-  <style>
-@import "@/assets/css/apple-style.css";
-/* Add your custom styles here */
+
+<style>
+/* Adjust the form width for smaller screens */
+@media (max-width: 768px) {
+  form {
+    width: 90%;
+  }
+}
 </style>
-  
