@@ -1,7 +1,7 @@
 <template>
   <footer class="footer mt-8">
     <div class="text-white text-center">
-      <p>Netflix Kazakhstan</p>
+      <p>Mangago by Ossein</p>
       <div class="footer-links">
         <a href="/privacy-policy">Privacy Policy</a>
         <a href="/terms-of-service">Terms of Service</a>
@@ -9,13 +9,13 @@
         <a href="/contact-us">Contact Us</a>
       </div>
       <div class="footer-social-icons">
-        <a href="https://www.facebook.com/netflixkz" target="_blank" rel="noopener">
+        <a href="https://www.facebook.com/" target="_blank" rel="noopener">
           <!-- <img src="facebook-icon.png" alt="Facebook"> -->
         </a>
-        <a href="https://twitter.com/netflixkz" target="_blank" rel="noopener">
+        <a href="https://twitter.com/" target="_blank" rel="noopener">
           <!-- <img src="twitter-icon.png" alt="Twitter"> -->
         </a>
-        <a href="https://www.instagram.com/netflixkz" target="_blank" rel="noopener">
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener">
           <!-- <img src="instagram-icon.png" alt="Instagram"> -->
         </a>
       </div>

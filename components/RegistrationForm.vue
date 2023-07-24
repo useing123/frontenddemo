@@ -13,7 +13,7 @@
         placeholder="Email address"
       />
       <button @click.prevent="registerUser" class="form-button py-3 rounded-lg text-lg font-bold">
-        Get Started >
+        Get Started 
       </button>
     </form>
   </div>
@@ -43,7 +43,7 @@ export default {
 .form-input {
   background-color: rgb(23, 23, 23);
   color: white;
-  border: none;
+  border: #e50914 1px solid;
   font-size: 1rem;
   padding: 0.5rem;
 }
