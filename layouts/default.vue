@@ -37,25 +37,29 @@ html {
   display: flex;
   flex-direction: column;
   flex: 1;
-  width: 100%; /* Use 100% to ensure app-container does not exceed viewport width */
-  align-items: center; /* This will center align all child elements */
+  width: 100%; 
+  align-items: center; 
+  background: #141414; 
+  color: #fff;
 }
 
 .header {
-  background-color: #181818;
+  background-color: #141414;
   color: #fff;
-  width: 100%; /* Ensures header stretches to the full width of the app container */
+  width: 100%; 
 }
 
 .main-content {
   flex: 1;
-  width: 100%; /* Ensures main content stretches to the full width of the app container */
+  width: 100%; 
   overflow-y: auto;
+  background: #141414; 
+  color: #fff;
 }
 
 .footer {
-  background-color: #181818;
+  background-color: #141414;
   color: #fff;
-  width: 100%; /* Ensures footer stretches to the full width of the app container */
+  width: 100%; 
 }
 </style>

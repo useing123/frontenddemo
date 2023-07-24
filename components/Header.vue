@@ -13,7 +13,7 @@
           </select>
         </div>
         <router-link to="/register" class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded">
-          Sign In
+          Sign Up
         </router-link>
       </div>
     </div>

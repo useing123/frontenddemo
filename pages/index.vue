@@ -2,19 +2,19 @@
   <div class="app-container">
     <div class="main-content flex justify-center items-center">
       <div class="content-container text-center">
-        <h1 class="font-extrabold mb-4 text-3xl md:text-6xl text-gray-900">
-          Mangago - stories generated personally for you.
+        <h1 class="font-extrabold mb-4 text-3xl md:text-6xl text-white">
+          Mangago - Dive into Personalized Manga Adventures!
         </h1>
-        <p class="font-light mb-8 text-xl md:text-2xl text-gray-600">
-          Explore a world of artwork the world has never seen before!
+        <p class="font-light mb-8 text-xl md:text-2xl text-gray-300">
+          Unleash your imagination in a universe of unseen, original artworks!
         </p>
         <RegistrationForm />
         <hr class="my-8 border-gray-200">
         <FAQSection />
         <hr class="my-8 border-gray-200">
         <div>
-          <h2 class="mb-4 font-semibold text-2xl text-gray-900">About Us</h2>
-          <p class="mb-8 font-light text-xl md:text-2xl text-gray-600">Add content about your website here.</p>
+          <h2 class="mb-4 font-semibold text-2xl text-white">Who We Are</h2>
+          <p class="mb-8 font-light text-xl md:text-2xl text-gray-300">At Mangago, we're transforming the way you experience manga. With personalization at our heart, we're making unseen artworks accessible for everyone.</p>
         </div>
       </div>
     </div>
@@ -41,24 +41,17 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #f7f8fa;
-  width: 100%; /* changed from 100vw to 100% to avoid overflow */
-  box-sizing: border-box; /* Add this line */
+  background: #141414;
+  width: 100%; 
+  box-sizing: border-box; 
 }
 
 .main-content {
-  width: 100%; /* removed max-width */
+  width: 100%; 
   text-align: center;
 }
 
-.content-container {
-  padding: 50px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
-}
-
 hr {
-  border-color: #e2e8f0;
+  border-color: #2c2c2c;
 }
 </style>

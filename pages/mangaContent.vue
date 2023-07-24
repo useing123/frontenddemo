@@ -1,22 +1,24 @@
 <template>
-    <div class="p-6">
-      <h1 class="text-4xl font-bold mb-4">{{ title }}</h1>
-      <h2 class="text-2xl font-semibold mb-2">Genre: {{ genre }}</h2>
-      <h2 class="text-2xl font-semibold mb-2">Chapters: {{ chapters_count }}</h2>
-      <h2 class="text-2xl font-semibold mb-2">Main Characters</h2>
-      <p class="mb-4">{{ main_characters }}</p>
-      <h2 class="text-2xl font-semibold mb-2">Funservice Characters</h2>
-      <p class="mb-4">{{ funservice_characters }}</p>
-      <h2 class="text-2xl font-semibold mb-2">Manga Chapters Story</h2>
-      <p class="mb-4">{{ manga_chapters_story }}</p>
-      <h2 class="text-2xl font-semibold mb-2">Manga Frames Description</h2>
-      <p class="mb-4">{{ manga_frames_description }}</p>
-      <h2 class="text-2xl font-semibold mb-2">Manga Story Dialogs</h2>
-      <p class="mb-4">{{ manga_story_dialogs }}</p>
-      <h2 class="text-2xl font-semibold mb-2">Manga Images Description</h2>
-      <p class="mb-4">{{ manga_images_description }}</p>
+  <div class="p-6 bg-gray-50 rounded-lg shadow-md">
+    <h1 class="text-4xl font-bold mb-4">{{ title }}</h1>
+    <div class="font-semibold text-xl mb-2">
+      <p>Genre: {{ genre }}</p>
+      <p>Chapters: {{ chapters_count }}</p>
     </div>
-  </template>
+    <h2 class="text-2xl font-semibold mb-2">Main Characters</h2>
+    <p class="mb-4">{{ main_characters }}</p>
+    <h2 class="text-2xl font-semibold mb-2">Funservice Characters</h2>
+    <p class="mb-4">{{ funservice_characters }}</p>
+    <h2 class="text-2xl font-semibold mb-2">Manga Chapters Story</h2>
+    <p class="mb-4">{{ manga_chapters_story }}</p>
+    <h2 class="text-2xl font-semibold mb-2">Manga Frames Description</h2>
+    <p class="mb-4">{{ manga_frames_description }}</p>
+    <h2 class="text-2xl font-semibold mb-2">Manga Story Dialogs</h2>
+    <p class="mb-4">{{ manga_story_dialogs }}</p>
+    <h2 class="text-2xl font-semibold mb-2">Manga Images Description</h2>
+    <p class="mb-4">{{ manga_images_description }}</p>
+  </div>
+</template>
   
   <script>
   export default {

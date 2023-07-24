@@ -1,41 +1,61 @@
 <template>
-    <div class="registration-form">
-      <h2 class="text-3xl font-semibold text-black mb-6">
-        Ready to watch? Enter your email to create or restart your membership.
-      </h2>
-      <form class="flex flex-col">
-        <label class="text-lg font-semibold mb-2 text-white" for="email"></label>
-        <input
-          id="email"
-          v-model="email"
-          class="p-3 rounded-lg border border-gray-300"
-          type="email"
-          required
-          placeholder="Enter your email address"
-        />
-        <button @click.prevent="registerUser" class="bg-red-600 text-white px-6 py-3 rounded-lg mt-8">
-          Start Watching
-        </button>
-      </form>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        email: '',
-      };
+  <div class="registration-form text-white p-6 rounded-lg">
+    <h2 class="text-3xl font-semibold mb-6">
+      Ready to watch? Enter your email to create or restart your membership.
+    </h2>
+    <form class="flex flex-col">
+      <input
+        id="email"
+        v-model="email"
+        class="form-input p-3 rounded-lg mb-4"
+        type="email"
+        required
+        placeholder="Email address"
+      />
+      <button @click.prevent="registerUser" class="form-button py-3 rounded-lg text-lg font-bold">
+        Get Started >
+      </button>
+    </form>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      email: '',
+    };
+  },
+  methods: {
+    registerUser() {
+      // Your registration logic here
     },
-    methods: {
-      registerUser() {
-        // Your registration logic here
-      },
-    },
-  };
-  </script>
-  
-  <style>
-  /* RegistrationForm styles go here */
-  </style>
-  
+  },
+};
+</script>
+
+<style scoped>
+.registration-form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.form-input {
+  background-color: rgb(23, 23, 23);
+  color: white;
+  border: none;
+  font-size: 1rem;
+  padding: 0.5rem;
+}
+
+.form-button {
+  background-color: #e50914;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.5s ease;
+}
+
+.form-button:hover {
+  background-color: #f40612;
+}
+</style>

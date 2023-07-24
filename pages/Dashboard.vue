@@ -1,18 +1,22 @@
 <template>
-    <div>
-      <h1 class="text-3xl font-bold mb-4">Personal Cabinet</h1>
-      <div v-if="user" class="border p-4 rounded-lg shadow">
-        <h2 class="text-xl font-semibold mb-2">User Profile</h2>
-        <p><strong>Name:</strong> {{ user.name }}</p>
-        <p><strong>Email:</strong> {{ user.email }}</p>
-        <!-- Display other profile information here -->
-      </div>
-      <div v-else>
-        Loading user profile...
-      </div>
-      <button @click="logout" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg mt-4">Logout</button>
+  <div class="dashboard">
+    <h1 class="text-3xl font-bold mb-4 text-white">Personal Cabinet</h1>
+    <div v-if="user" class="profile border p-4 rounded-lg shadow bg-gray-800 text-white">
+      <h2 class="text-xl font-semibold mb-2">User Profile</h2>
+      <p><strong>Name:</strong> {{ user.name }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <!-- Display other profile information here -->
     </div>
-  </template>
+    <div v-else class="text-white">
+      Loading user profile...
+    </div>
+    <button @click="logout" class="logout-btn bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg mt-4">Logout</button>
+  </div>
+</template>
+
+<!-- Place the same script here -->
+
+
   
   <script>
   import axios from 'axios';
@@ -54,8 +58,17 @@
     },
   };
   </script>
-  
-  <style>
-  /* Add your custom styles here */
-  </style>
-  
+
+<style scoped>
+.dashboard {
+color: #fff;
+}
+
+.profile {
+color: #fff;
+}
+
+.logout-btn {
+color: #fff;
+}
+</style>
