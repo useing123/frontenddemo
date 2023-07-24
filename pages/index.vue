@@ -1,16 +1,17 @@
 <template>
-  <main class="pt-10">
-    <img src="assets/bg.jpg" alt="Background" />
-    <div class="w-[720px] text-white text-center m-auto p-2 text-6xl pt-48 font-extrabold">
-      Connecting history and technology.
-    </div>
-    <div class="text-white text-center m-auto md:w-[720px] font-light pt-8 pb-12 text-lg">
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptates, nulla ratione. Id tempora quis ducimus sint commodi! Voluptatibus blanditiis ipsum facilis, assumenda quam ad impedit.
-    </div>
-    <div class="text-center">
-      <nuxt-link to="/mangaGeneration" class="m-auto hover:bg-gray-300 hover:text-gray-800 duration-150 text-2xl bg-white p-3 px-4 rounded-2xl font-light">
-        Explore
-      </nuxt-link>
+  <main class="main-container pt-10">
+    <div class="content">
+      <div class="w-[720px] text-white text-center m-auto p-2 text-6xl pt-40 font-extrabold mb-4">
+        Mangago - stories generated personally for you.
+      </div>
+      <div class="text-white text-center m-auto md:w-[720px] font-light pb-8 text-lg mb-8">
+        Explore a world of artwork the world has never seen before!
+      </div>
+      <div class="text-center">
+        <nuxt-link to="/mangaGeneration" class="m-auto hover:bg-gray-300 hover:text-gray-800 duration-150 text-2xl bg-white p-3 px-4 rounded-2xl font-light">
+          Explore
+        </nuxt-link>
+      </div>
     </div>
   </main>
 </template>
@@ -21,5 +22,21 @@ export default {};
 
 <style>
 @import '@/assets/css/apple-style.css';
-/* Add your styles here */
+.main-container {
+  background-image: url('images/123.jpg'); /* Замените путь на свой путь к изображению */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh; /* Гарантирует, что контейнер будет занимать всю высоту экрана */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Стили для внутреннего контейнера с контентом */
+.content {
+  padding: 50px; /* Добавьте отступы для контента, чтобы он не прижимался к краям экрана */
+}
+
+/* Остальные стили */
 </style>

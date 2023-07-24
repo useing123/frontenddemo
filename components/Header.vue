@@ -6,8 +6,8 @@
       </h1>
       <div>
         <router-link to="/" class="mr-4">Main</router-link>
-        <router-link to="/manga_read" class="mr-4">Generate</router-link>
-        <router-link to="/manga_collection">Login</router-link>
+        <router-link to="/mangaGeneration" class="mr-4">Generate</router-link>
+        <router-link to="/login">Login</router-link>
       </div>
     </div>
   </header>
