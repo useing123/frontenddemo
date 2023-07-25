@@ -5,15 +5,15 @@
       <label
         v-for="genre in genres"
         :key="genre"
-        class="p-2 rounded-lg border border-gray-600 mr-2 mb-2 flex items-center cursor-pointer bg-gray-800 text-white hover:bg-gray-700"
+        class="genre-option"
       >
         <input
           type="checkbox"
           :value="genre"
           v-model="selectedGenres"
-          class="mr-2"
+          class="genre-checkbox"
         />
-        <span>{{ genre }}</span>
+        <span class="genre-label">{{ genre }}</span>
       </label>
     </div>
   </div>
@@ -21,18 +21,43 @@
 
 <script>
 export default {
-data() {
-  return {
-    genres: ['Shonen', 'Shoujo', 'Seinen', 'Josei', 'Isekai', 'Slice of Life', 'Horror', 'Mecha', 'Sports', 'Supernatural', 'Mystery', 'Historical', 'Psychological', 'Harem', 'Ecchi'],
-    selectedGenres: [],
-  };
-},
+  data() {
+    return {
+      genres: ['Shonen', 'Shoujo', 'Seinen', 'Josei', 'Isekai', 'Slice of Life', 'Horror', 'Mecha', 'Sports', 'Supernatural', 'Mystery', 'Historical', 'Psychological', 'Harem', 'Ecchi'],
+      selectedGenres: [],
+    };
+  },
 };
 </script>
 
 <style scoped>
-.genre-section input {
-  color: #ffffff;
-  background-color: #000000;
+.genre-section {
+  background-color: #141414;
+}
+
+.genre-option {
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.25rem;
+  border: 1px solid #2c2c2c;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: #202020;
+  color: #fff;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.genre-option:hover {
+  background-color: #1c1c1c;
+}
+
+.genre-checkbox {
+  margin-right: 0.5rem;
+}
+
+.genre-label {
+  font-size: 0.875rem;
 }
 </style>

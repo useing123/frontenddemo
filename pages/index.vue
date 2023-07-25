@@ -2,20 +2,23 @@
   <div class="app-container">
     <div class="main-content flex justify-center items-center">
       <div class="content-container text-center">
+        <hr class="my-8 border-gray-200">
         <h1 class="font-extrabold mb-4 text-3xl md:text-6xl text-white">
           Mangago - Dive into Personalized Manga Adventures!
         </h1>
         <p class="font-light mb-8 text-xl md:text-2xl text-gray-300">
           Unleash your imagination in a universe of unseen, original artworks!
         </p>
-        <RegistrationForm />
         <hr class="my-8 border-gray-200">
-        <FAQSection />
+        <RegistrationForm />
         <hr class="my-8 border-gray-200">
         <div>
           <h2 class="mb-4 font-semibold text-2xl text-white">Who We Are</h2>
           <p class="mb-8 font-light text-xl md:text-2xl text-gray-300">At Mangago, we're transforming the way you experience manga. With personalization at our heart, we're making unseen artworks accessible for everyone.</p>
         </div>
+        <hr class="my-8 border-gray-200">
+        <FAQSection />
+        <hr class="my-8 border-gray-200">
       </div>
     </div>
   </div>

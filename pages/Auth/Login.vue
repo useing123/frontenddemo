@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
-    <div class="main-content">
-      <h1 class="text-3xl font-bold mb-4">Login</h1>
-      <form class="flex flex-col mt-4 w-full md:w-1/3" @submit.prevent="loginUser">
+    <div class="main-content flex flex-col items-center">
+      <h1 class="text-3xl font-semibold text-white mb-4">Login</h1>
+      <form class="form-container flex flex-col" @submit.prevent="loginUser">
         <label class="text-lg font-semibold mb-2" for="email">Email:</label>
         <input
           id="email"
           v-model="email"
-          class="p-2 rounded-lg border border-gray-300"
+          class="input-field"
           type="email"
           required
         />
@@ -16,14 +16,14 @@
         <input
           id="password"
           v-model="password"
-          class="p-2 rounded-lg border border-gray-300"
+          class="input-field"
           type="password"
           required
         />
 
         <button
           :disabled="!email || !password"
-          class="bg-red-600 text-white px-6 py-3 rounded-lg mt-8"
+          class="submit-button mt-8"
         >
           Login
         </button>
@@ -42,7 +42,8 @@
 </template>
 
 <script>
-import axios from "axios";
+// Import axios from @nuxtjs/axios
+import axios from "@nuxtjs/axios";
 import qs from "qs"; // You might need to install this package
 
 export default {
@@ -50,7 +51,7 @@ export default {
     return {
       email: "",
       password: "",
-      error: ""
+      error: "",
     };
   },
   methods: {
@@ -66,16 +67,8 @@ export default {
           client_secret: "",
         });
 
-        const config = {
-          method: "post",
-          url: "https://fastapi-9a00.onrender.com/auth/users/tokens",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          data: data,
-        };
-
-        const response = await axios(config);
+        // Use this.$axios to access Axios with the base URL from next.config.js
+        const response = await this.$axios.post("/auth/users/tokens", data);
 
         if (response.data.access_token) {
           // Store the JWT in local storage
@@ -95,21 +88,49 @@ export default {
 
 <style scoped>
 .app-container {
-  height: 100vh;
-  width: 100vw;
+  padding: 1rem;
+  min-height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background: #141414;
-  box-sizing: border-box;
+  box-sizing: border-box; 
 }
 
 .main-content {
-  width: 100%;
-  max-width: 500px; /* Optional: Add a max-width to the main content if you want to limit its width */
-  text-align: center;
+  width: 100%; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Additional styles for other elements can be added here if needed */
+.form-container {
+  width: 100%;
+  max-width: 500px;
+}
+
+.input-field {
+  color: #000;
+  padding: 0.5rem;
+  border: none;
+  background-color: #ffffff;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.submit-button {
+  color: #fff;
+  background-color: #e50914;
+  padding: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.5s ease;
+}
+
+.submit-button:hover {
+  background-color: #f40612;
+}
 </style>

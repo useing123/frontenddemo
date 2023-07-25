@@ -12,7 +12,7 @@
             <option value="kz">Qazaq</option>
           </select>
         </div>
-        <router-link to="/register" class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded">
+        <router-link to="auth/register" class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded">
           Sign Up
         </router-link>
       </div>
@@ -50,4 +50,7 @@
     margin-top: 16px;
   }
 }
+  .header-transparent {
+    background-color: rgba(0, 0, 0, 0); /* Transparent background */
+  }
 </style>
