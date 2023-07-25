@@ -11,6 +11,7 @@
           type="email"
           @input="validateEmail"
           required
+          placeholder="Email address"
         />
         <p v-if="!validEmail && email" class="text-red-500">Invalid email</p>
 
@@ -21,6 +22,7 @@
           class="input-field"
           type="password"
           required
+          placeholder="Enter password"
         />
 
         <label class="text-lg font-semibold mb-2 mt-4" for="confirm-password">Confirm Password:</label>
@@ -30,6 +32,7 @@
           class="input-field"
           type="password"
           required
+          placeholder="Enter password"
         />
         <p v-if="password !== confirmPassword" class="text-red-500">Passwords do not match</p>
 

@@ -1,6 +1,6 @@
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: true,
+  ssr: false,
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -19,14 +19,6 @@ export default {
   router: {
     // Define routes for Auth pages
     routes: [
-      {
-        path: "/auth/login",
-        component: "~/pages/Auth/Login.vue",
-      },
-      {
-        path: "/auth/register",
-        component: "~/pages/Auth/Register.vue",
-      },
     ],
   },
 

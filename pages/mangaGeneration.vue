@@ -5,7 +5,9 @@
 
     <form class="flex flex-col mt-4 w-full" @submit.prevent="submitForm">
       <div class="form-group">
-        <label class="text-lg font-semibold mb-2" for="prompt">Enter Prompt:</label>
+        <label class="text-lg font-semibold mb-2" for="prompt"
+          >Enter Prompt:</label
+        >
         <textarea
           id="prompt"
           v-model="prompt"
@@ -21,7 +23,7 @@
         :disabled="!prompt || loading"
         class="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4 w-full"
       >
-        {{ loading ? 'Generating Manga...' : 'Generate Manga' }}
+        {{ loading ? "Generating Manga..." : "Generate Manga" }}
       </button>
 
       <button
@@ -31,12 +33,44 @@
       >
         Clear
       </button>
+      <button
+        type="button"
+        @click="checkManga"
+        class="bg-green-500 text-white px-4 py-2 rounded-lg mt-2 w-full"
+      >
+        Check My Manga
+      </button>
+      <div v-if="mangaDetails" class="mt-4">
+        <h2>
+          Your manga is ready! Here is the ID:
+          <span class="font-bold text-blue-500">{{
+            mangaDetails.manga_id
+          }}</span>
+        </h2>
+        <h3 class="font-bold text-lg mt-2">Manga Details:</h3>
+        <p><strong>Title:</strong> {{ mangaDetails.title }}</p>
+        <p><strong>Genre:</strong> {{ mangaDetails.genre }}</p>
+        <p>
+          <strong>Main Characters:</strong> {{ mangaDetails.main_characters }}
+        </p>
 
-      <div v-if="mangaId" class="mt-4">
-        <h2>Your manga is ready! Here is the ID: <span class="font-bold text-blue-500">{{ mangaId }}</span></h2>
-        <div v-if="mangaDetails">
-          <h3 class="font-bold text-lg mt-2">Manga Details:</h3>
-          <pre class="border border-gray-300 rounded-lg p-4 bg-white mt-2">{{ mangaDetails }}</pre>
+        <!-- Hardcoded images -->
+        <div class="mt-4">
+          <img
+            src="https://i.imgur.com/DQTuipb.jpeg"
+            alt="Manga Image 1"
+            class="manga-image"
+          />
+          <img
+            src="https://i.imgur.com/mZK92kv.jpeg"
+            alt="Manga Image 2"
+            class="manga-image"
+          />
+          <img
+            src="https://i.imgur.com/NRUjw07.jpeg"
+            alt="Manga Image 3"
+            class="manga-image"
+          />
         </div>
       </div>
     </form>
@@ -45,7 +79,7 @@
 
 <style scoped>
 textarea {
-  color: #000; 
+  color: #000;
 }
 
 .form-group {
@@ -63,11 +97,8 @@ textarea {
 </style>
 
 <script>
-import axios from 'axios';
-import GenreSelection from '~/components/GenreSelection.vue';
-import io from 'socket.io-client';
-
-const socket = io('https://fastapi-9a00.onrender.com');
+import axios from "axios";
+import GenreSelection from "~/components/GenreSelection.vue";
 
 export default {
   components: {
@@ -76,8 +107,7 @@ export default {
   data() {
     return {
       selectedGenres: [],
-      prompt: '',
-      mangaId: null,
+      prompt: "",
       mangaDetails: null,
       loading: false,
       error: null,
@@ -89,48 +119,80 @@ export default {
 
       this.loading = true;
       const mangaCreateRequest = {
-        genre: this.selectedGenres.join(','), // Convert the array of genres to a comma-separated string
+        genre: this.selectedGenres.join(","), // Convert the array of genres to a comma-separated string
         prompt: this.prompt,
         chapters_count: 1, // You can set the chapters_count value according to your requirements
       };
 
       try {
-        const jwt = localStorage.getItem('jwt');
+        const jwt = localStorage.getItem("jwt");
         const createResponse = await this.createManga(mangaCreateRequest, jwt);
-        this.mangaId = createResponse.data.manga_id;
-
-        socket.emit('start_generation', { manga_id: this.mangaId });
-
-        socket.on('generation_update', (data) => {
-          this.mangaDetails = data;
-          this.loading = data.status !== 'completed';
-        });
-
-        socket.on('generation_complete', () => {
-          this.loading = false;
-        });
+        this.pollMangaDetails(createResponse.data.manga_id, jwt);
 
         this.error = null;
       } catch (error) {
         console.error(error);
         this.loading = false;
-        this.error = error.response.data.detail || 'An error occurred.';
+        this.error = error.response.data.detail || "An error occurred.";
       }
     },
     async createManga(mangaCreateRequest, jwt) {
-      const response = await axios.post('https://fastapi-9a00.onrender.com/manga/generate', mangaCreateRequest, {
-        headers: {
-          'Authorization': `Bearer ${jwt}`,
-        },
-      });
+      const response = await axios.post(
+        "https://fastapi-9a00.onrender.com/manga/generate",
+        mangaCreateRequest,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
       return response;
     },
+    async pollMangaDetails(mangaId, jwt) {
+      const intervalId = setInterval(async () => {
+        const response = await axios.get(
+          `https://fastapi-9a00.onrender.com/manga/read/${mangaId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+          }
+        );
+
+        this.mangaDetails = response.data;
+
+        if (response.data.status === "completed") {
+          this.loading = false;
+          clearInterval(intervalId);
+        }
+      }, 25000); // Poll every 25 seconds
+    },
     clearForm() {
-      this.prompt = '';
+      this.prompt = "";
       this.selectedGenres = [];
-      this.mangaId = null;
       this.mangaDetails = null;
       this.error = null;
+    },
+    async checkManga() {
+      if (!this.mangaDetails || !this.mangaDetails.manga_id) {
+        alert("Please generate a manga first.");
+        return;
+      }
+
+      let jwt;
+      if (process.client) {
+        jwt = localStorage.getItem("jwt");
+      }
+      const response = await axios.get(
+        `https://fastapi-9a00.onrender.com/manga/read/${this.mangaDetails.manga_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+
+      this.mangaDetails = response.data;
     },
   },
 };

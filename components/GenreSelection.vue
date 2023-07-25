@@ -10,7 +10,7 @@
         <input
           type="checkbox"
           :value="genre"
-          v-model="selectedGenres"
+          @change="updateSelectedGenres"
           class="genre-checkbox"
         />
         <span class="genre-label">{{ genre }}</span>
@@ -21,14 +21,32 @@
 
 <script>
 export default {
+  props: {
+    selectedGenres: {
+      type: Array,
+      default: () => [],
+    },
+  },
   data() {
     return {
       genres: ['Shonen', 'Shoujo', 'Seinen', 'Josei', 'Isekai', 'Slice of Life', 'Horror', 'Mecha', 'Sports', 'Supernatural', 'Mystery', 'Historical', 'Psychological', 'Harem', 'Ecchi'],
-      selectedGenres: [],
     };
+  },
+  methods: {
+    updateSelectedGenres(event) {
+      if (event.target.checked) {
+        this.selectedGenres.push(event.target.value);
+      } else {
+        this.selectedGenres = this.selectedGenres.filter(
+          genre => genre !== event.target.value
+        );
+      }
+      this.$emit('input', this.selectedGenres);
+    },
   },
 };
 </script>
+
 
 <style scoped>
 .genre-section {

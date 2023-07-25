@@ -10,21 +10,22 @@
           class="input-field"
           type="email"
           required
+          placeholder="Email address"
         />
 
-        <label class="text-lg font-semibold mb-2 mt-4" for="password">Password:</label>
+        <label class="text-lg font-semibold mb-2 mt-4" for="password"
+          >Password:</label
+        >
         <input
           id="password"
           v-model="password"
           class="input-field"
           type="password"
           required
+          placeholder="Password"
         />
 
-        <button
-          :disabled="!email || !password"
-          class="submit-button mt-8"
-        >
+        <button :disabled="!email || !password" class="submit-button mt-8">
           Login
         </button>
 
@@ -96,11 +97,11 @@ export default {
   align-items: center;
   justify-content: center;
   background: #141414;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 
 .main-content {
-  width: 100%; 
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -109,6 +110,13 @@ export default {
 .form-container {
   width: 100%;
   max-width: 500px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 600px) {
+  .form-container {
+    max-width: 100%;
+  }
 }
 
 .input-field {
