@@ -38,7 +38,7 @@
         to="/login"
         class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition-colors duration-300 ease-in-out"
       >
-        Sign Up
+        Sign In
       </router-link>
       <button
         v-else
