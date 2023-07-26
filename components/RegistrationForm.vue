@@ -28,7 +28,8 @@ export default {
   },
   methods: {
     registerUser() {
-      // Your registration logic here
+      this.$store.commit('setEmail', this.email)
+      this.$router.push({ name: 'register' });
     },
   },
 };

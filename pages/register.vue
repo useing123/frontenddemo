@@ -61,11 +61,63 @@
   </div>
 </template>
 
+<script>
+import axios from "@nuxtjs/axios";
+
+export default {
+  data() {
+    return {
+      email: this.$store.state.email,
+      password: "",
+      confirmPassword: "",
+      error: "",
+      loading: false,
+    };
+  },
+  computed: {
+    validEmail() {
+      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(this.email.toLowerCase());
+    },
+  },
+  methods: {
+    async registerUser() {
+      if (this.validEmail && this.password === this.confirmPassword) {
+        this.error = "";
+        this.loading = true; 
+        try {
+          const response = await this.$axios.post("/auth/users", {
+            email: this.email,
+            password: this.password,
+          });
+
+          this.loading = false; 
+
+          if (response.data.email) {
+            console.log("User registered successfully!");
+            this.$router.push("/login");
+          } else {
+            this.error = "Error registering user: " + response.data.detail;
+          }
+        } catch (error) {
+          this.loading = false; 
+          this.error = "Error registering user: " + error;
+        }
+      }
+    },
+    validateEmail() {
+      this.error = "";
+    },
+  },
+};
+
+</script>
+
 <style scoped>
 .app-container {
   padding: 1rem;
-  min-height: 100vh;  /* Changes here */
-  width: 100%;  /* Changes here */
+  min-height: 100vh; 
+  width: 100%; 
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -109,59 +161,3 @@
   background-color: #f40612;
 }
 </style>
-
-<script>
-// Import axios from @nuxtjs/axios
-import axios from "@nuxtjs/axios";
-
-export default {
-  data() {
-    return {
-      email: "",
-      password: "",
-      confirmPassword: "",
-      error: "",
-      loading: false, // Initialize the loading flag as false
-    };
-  },
-  computed: {
-    validEmail() {
-      // Basic email validation with regex
-      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(this.email.toLowerCase());
-    },
-  },
-  methods: {
-    async registerUser() {
-      // Only proceed if email is valid and passwords match
-      if (this.validEmail && this.password === this.confirmPassword) {
-        this.error = "";
-        this.loading = true; // Set loading to true when registration starts
-        try {
-          // Use this.$axios to access Axios with the base URL from next.config.js
-          const response = await this.$axios.post("/auth/users", {
-            email: this.email,
-            password: this.password,
-          });
-
-          this.loading = false; // Set loading back to false after registration completes
-
-          if (response.data.email) {
-            console.log("User registered successfully!");
-            this.$router.push("/login");
-          } else {
-            this.error = "Error registering user: " + response.data.detail;
-          }
-        } catch (error) {
-          this.loading = false; // Set loading back to false on registration failure
-          this.error = "Error registering user: " + error;
-        }
-      }
-    },
-    validateEmail() {
-      // Reset the error message when the user starts typing
-      this.error = "";
-    },
-  },
-};
-</script>
