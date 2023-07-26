@@ -36,9 +36,11 @@ export default {
 };
 </script>
 
+
 <style scoped>
 .app-container {
   padding: 1rem;
+  padding-top: 80px; /* Add top padding to accommodate for the fixed header */
   min-height: 100vh;
   display: flex;
   flex-direction: column;

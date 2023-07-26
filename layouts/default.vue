@@ -26,40 +26,37 @@ html {
   margin: 0;
   padding: 0;
   font-size: 16px;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  width: 100%;
   box-sizing: border-box;
 }
 
 .app-container {
   display: flex;
   flex-direction: column;
-  flex: 1;
-  width: 100%; 
-  align-items: center; 
-  background: #141414; 
+  align-items: center;
+  background: #141414;
   color: #fff;
+  min-height: 100vh; /* Set minimum height to 100% of viewport height */
 }
 
 .header {
   background-color: #141414;
   color: #fff;
-  width: 100%; 
+  width: 100%;
 }
 
 .main-content {
   flex: 1;
-  width: 100%; 
   overflow-y: auto;
-  background: #141414; 
+  background: #141414;
   color: #fff;
+  height: auto; /* Set height to auto */
 }
 
 .footer {
   background-color: #141414;
   color: #fff;
-  width: 100%; 
+  width: 100%;
+  height: auto; /* Set height to auto */
 }
 </style>
+

@@ -1,60 +1,93 @@
 <template>
-  <header class="header">
-    <div class="container mx-auto flex justify-between items-center py-1">
-      <h1 class="text-white text-2xl font-semibold">Mangago.ai</h1>
-      <div class="nav-links"></div>
-      <div class="container mx-auto flex items-center py-3">
+  <header class="header bg-black text-white p-4">
+    <div class="container mx-auto flex flex-wrap justify-between items-center">
+      <h1 class="font-bold text-2xl md:text-4xl">Mangago.ai</h1>
+      <div class="flex gap-6">
+        <router-link
+          v-if="isAuthenticated"
+          to="/"
+          class="transition-colors duration-300 ease-in-out text-base md:text-lg hover:text-yellow-500"
+        >
+          Main
+        </router-link>
+        <router-link
+          v-if="isAuthenticated"
+          to="/mangaGeneration"
+          class="transition-colors duration-300 ease-in-out text-base md:text-lg hover:text-yellow-500"
+        >
+          Generate Manga
+        </router-link>
+        <router-link
+          v-if="isAuthenticated"
+          to="/mangaSearch"
+          class="transition-colors duration-300 ease-in-out text-base md:text-lg hover:text-yellow-500"
+        >
+          Find Manga
+        </router-link>
+      </div>
+      <div class="flex items-center gap-6 mt-6 md:mt-0">
         <div class="language-select">
-          <select
-            class="text-white bg-transparent border border-white rounded px-2 py-1"
-          >
+          <select class="text-white bg-transparent border border-white rounded p-1">
             <option value="en">English</option>
             <option value="ru">Русский</option>
             <option value="kz">Qazaq</option>
           </select>
         </div>
         <router-link
-          to="/register"
-          class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded"
-        >
-          Sign Up
-        </router-link>
+        v-if="!isAuthenticated"
+        to="/login"
+        class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition-colors duration-300 ease-in-out"
+      >
+        Sign Up
+      </router-link>
+      <button
+        v-else
+        @click="logoutUser"
+        class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition-colors duration-300 ease-in-out"
+      >
+        Logout
+      </button>
       </div>
     </div>
   </header>
 </template>
 
+<script>
+export default {
+  computed: {
+    isAuthenticated() {
+      // Check if a JWT is stored in the local storage
+      return localStorage.getItem("jwt") ? true : false;
+    },
+  },
+  methods: {
+    logoutUser() {
+      // Clear the JWT from local storage
+      localStorage.removeItem("jwt");
+      // Redirect the user to the home page
+      this.$router.push("/");
+    },
+  },
+};
+</script>
+
+
 <style scoped>
-.container {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
+body,
+html {
+  padding: 0;
+  margin: 0;
 }
 
-.nav-links {
-  display: flex;
-  gap: 16px;
-}
-
-.language-select select {
-  color: #999;
-}
-
-.router-link-exact-active {
-  color: #fff;
+.app-container {
+  padding-top: 70px; /* Adjust as necessary. This should be at least the height of your header */
 }
 
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
+    gap: 16px;
   }
-
-  .nav-links {
-    margin-top: 16px;
-  }
-}
-.header-transparent {
-  background-color: rgba(0, 0, 0, 0); /* Transparent background */
 }
 </style>

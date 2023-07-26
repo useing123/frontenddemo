@@ -1,7 +1,7 @@
 <template>
-  <div class="dashboard">
+  <div class="dashboard flex flex-col items-center">
     <h1 class="text-3xl font-bold mb-4 text-white">Personal Cabinet</h1>
-    <div v-if="user" class="profile border p-4 rounded-lg shadow bg-gray-800 text-white">
+    <div v-if="user" class="profile p-4 mb-4 bg-gray-800 rounded-lg shadow-md text-white w-2/3">
       <h2 class="text-xl font-semibold mb-2">User Profile</h2>
       <p><strong>Name:</strong> {{ user.name }}</p>
       <p><strong>Email:</strong> {{ user.email }}</p>
@@ -10,7 +10,7 @@
     <div v-else class="text-white">
       Loading user profile...
     </div>
-    <button @click="logout" class="logout-btn bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg mt-4">Logout</button>
+    <button @click="logout" class="logout-btn bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg">Logout</button>
   </div>
 </template>
 
