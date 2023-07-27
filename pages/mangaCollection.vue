@@ -123,8 +123,8 @@ export default {
   },
 };
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .app-container {
   /* Styles for app-container */
 }
@@ -134,25 +134,15 @@ export default {
 }
 
 .page-button {
-  background-color: #f56565;
-  color: #ffffff;
-  padding: 6px 12px;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-  text-decoration: none;
-  display: inline-block;
-  transition: background-color 0.3s ease-in-out;
-  margin: 10px;
+  /* ... Your page-button styles ... */
 }
 
 .page-button:hover {
-  background-color: #e53e3e;
+  /* ... Your page-button:hover styles ... */
 }
 
 .page-button:disabled {
-  background-color: #a0aec0;
-  cursor: not-allowed;
+  /* ... Your page-button:disabled styles ... */
 }
 
 .search-input,
@@ -161,6 +151,11 @@ export default {
   font-size: 16px;
   border-radius: 4px;
   border: 1px solid #e2e8f0;
+}
+
+.genre-select {
+  /* Add this style to make the text in the genre select black */
+  color: black;
 }
 
 /* Additional spacing for the grid */
@@ -172,4 +167,3 @@ export default {
   padding: 0 10px;
 }
 </style>
-  

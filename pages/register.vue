@@ -32,13 +32,13 @@
           class="input-field"
           type="password"
           required
-          placeholder="Enter password"
+          placeholder="Confirm password"
         />
         <p v-if="password !== confirmPassword" class="text-red-500">Passwords do not match</p>
 
         <button
           :disabled="loading || !validEmail || password !== confirmPassword || !password"
-          class="bg-red-600 text-white px-6 py-3 rounded-lg mt-8"
+          class="submit-button mt-8"
         >
           {{ loading ? 'Registering...' : 'Register' }}
         </button>
@@ -50,12 +50,7 @@
           Already have an account? Login
         </button>
 
-        <p v-if="error" class="text-red-500 mt-4">{{ error }}</p>
-
-        <div class="mt-4">
-          <p class="text-white">Or register with:</p>
-          <button class="submit-button mt-4">Google</button>
-        </div>
+        <p v-if="error" class="text-red-500 mt-4">Registration Error: {{ error }}</p>
       </form>
     </div>
   </div>
@@ -96,6 +91,11 @@ export default {
 
           if (response.data.email) {
             console.log("User registered successfully!");
+
+            // Clear form fields after successful registration
+            this.email = "";
+            this.password = "";
+            this.confirmPassword = "";
 
             // Auto-login the user after registration
             this.autoLogin();
@@ -165,6 +165,13 @@ export default {
   max-width: 500px;
 }
 
+/* Responsive Design */
+@media screen and (max-width: 600px) {
+  .form-container {
+    max-width: 100%;
+  }
+}
+
 .input-field {
   color: #000;
   padding: 0.5rem;
@@ -186,5 +193,12 @@ export default {
 
 .submit-button:hover {
   background-color: #f40612;
+}
+
+/* Additional styles for error message */
+.text-red-500 {
+  color: #ff0000;
+  font-size: 14px;
+  margin-top: 0.5rem;
 }
 </style>

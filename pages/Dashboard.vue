@@ -14,61 +14,64 @@
   </div>
 </template>
 
-<!-- Place the same script here -->
+<script>
+import axios from 'axios';
 
+export default {
+  data() {
+    return {
+      user: null,
+    };
+  },
+  async mounted() {
+    try {
+      // Fetch user data from the server (replace this with your actual API call)
+      const userData = await this.fetchUserDataFromServer();
 
-  
-  <script>
-  import axios from 'axios';
-  
-  export default {
-    data() {
-      return {
-        user: null,
-      };
+      // Set the fetched data to the user property
+      this.user = userData;
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  },
+  methods: {
+    async fetchUserDataFromServer() {
+      const jwt = localStorage.getItem('jwt'); // Assuming you have stored the JWT in local storage
+
+      const response = await axios.get('https://fastapi-9a00.onrender.com/auth/users/me', {
+        headers: {
+          'Authorization': `Bearer ${jwt}`,
+        },
+      });
+
+      return response.data;
     },
-    async mounted() {
-      try {
-        // Fetch user data from the server (replace this with your actual API call)
-        const userData = await this.fetchUserDataFromServer();
-  
-        // Set the fetched data to the user property
-        this.user = userData;
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
+    logout() {
+      // Perform logout actions, e.g., clear token from local storage
+      // For example: localStorage.removeItem("jwt");
+      this.$router.push("/login"); // Redirect to the login page after logout
     },
-    methods: {
-      async fetchUserDataFromServer() {
-        const jwt = localStorage.getItem('jwt'); // Assuming you have stored the JWT in local storage
-  
-        const response = await axios.get('https://fastapi-9a00.onrender.com/auth/users/me', {
-          headers: {
-            'Authorization': `Bearer ${jwt}`,
-          },
-        });
-  
-        return response.data;
-      },
-      logout() {
-        // Perform logout actions, e.g., clear token from local storage
-        // For example: localStorage.removeItem("jwt");
-        this.$router.push("/login"); // Redirect to the login page after logout
-      },
-    },
-  };
-  </script>
+  },
+};
+</script>
 
 <style scoped>
 .dashboard {
-color: #fff;
+  color: #fff;
 }
 
 .profile {
-color: #fff;
+  color: #fff;
 }
 
 .logout-btn {
-color: #fff;
+  color: #fff;
+}
+
+/* Additional styles for error message */
+.text-red-500 {
+  color: #ff0000;
+  font-size: 14px;
+  margin-top: 0.5rem;
 }
 </style>

@@ -13,9 +13,7 @@
           placeholder="Email address"
         />
 
-        <label class="text-lg font-semibold mb-2 mt-4" for="password"
-          >Password:</label
-        >
+        <label class="text-lg font-semibold mb-2 mt-4" for="password">Password:</label>
         <input
           id="password"
           v-model="password"
@@ -86,7 +84,6 @@ export default {
 };
 </script>
 
-
 <style scoped>
 .app-container {
   padding: 1rem;
@@ -140,5 +137,12 @@ export default {
 
 .submit-button:hover {
   background-color: #f40612;
+}
+
+/* Additional styles for error message */
+.text-red-500 {
+  color: #ff0000;
+  font-size: 14px;
+  margin-top: 0.5rem;
 }
 </style>
