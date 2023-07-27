@@ -7,10 +7,14 @@
       <p><strong>Email:</strong> {{ user.email }}</p>
       <!-- Display other profile information here -->
     </div>
-    <div v-else class="text-white">
+    <div v-else-if="loading" class="text-white">
       Loading user profile...
     </div>
-    <button @click="logout" class="logout-btn bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg">Logout</button>
+    <div v-else>
+      <p class="text-red-500">User not authenticated. Please login.</p>
+      <router-link to="/login" class="text-white underline">Go to login</router-link>
+    </div>
+    <button v-if="user" @click="logout" class="logout-btn bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg mt-4">Logout</button>
   </div>
 </template>
 
@@ -21,34 +25,42 @@ export default {
   data() {
     return {
       user: null,
+      loading: false, // New data property to handle loading state
     };
   },
   async mounted() {
-    try {
-      // Fetch user data from the server (replace this with your actual API call)
-      const userData = await this.fetchUserDataFromServer();
-
-      // Set the fetched data to the user property
-      this.user = userData;
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
+    await this.fetchUserDataFromServer();
   },
   methods: {
     async fetchUserDataFromServer() {
-      const jwt = localStorage.getItem('jwt'); // Assuming you have stored the JWT in local storage
+      const jwt = this.$cookies.get('jwt'); // Fetch JWT from cookies
 
-      const response = await axios.get('https://fastapi-9a00.onrender.com/auth/users/me', {
-        headers: {
-          'Authorization': `Bearer ${jwt}`,
-        },
-      });
+      if (jwt) {
+        try {
+          this.loading = true;
+          const response = await axios.get('https://fastapi-9a00.onrender.com/auth/users/me', {
+            headers: {
+              'Authorization': `Bearer ${jwt}`,
+            },
+          });
 
-      return response.data;
+          this.user = response.data;
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          // Handle the error, e.g., redirect to login page
+          this.$router.push("/login");
+        } finally {
+          this.loading = false;
+        }
+      } else {
+        // If JWT is missing, redirect to login page
+        this.$router.push("/login");
+      }
     },
     logout() {
-      // Perform logout actions, e.g., clear token from local storage
-      // For example: localStorage.removeItem("jwt");
+      // Perform logout actions, e.g., clear token from cookies
+      this.$cookies.remove("jwt");
+      this.user = null;
       this.$router.push("/login"); // Redirect to the login page after logout
     },
   },
@@ -58,6 +70,7 @@ export default {
 <style scoped>
 .dashboard {
   color: #fff;
+  padding: 1rem;
 }
 
 .profile {
@@ -68,10 +81,17 @@ export default {
   color: #fff;
 }
 
-/* Additional styles for error message */
 .text-red-500 {
   color: #ff0000;
   font-size: 14px;
   margin-top: 0.5rem;
+}
+
+/* Responsive Design */
+@media screen and (min-width: 768px) {
+  .dashboard {
+    max-width: 768px;
+    margin: 0 auto;
+  }
 }
 </style>
