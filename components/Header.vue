@@ -34,42 +34,45 @@
           </select>
         </div>
         <router-link
-        v-if="!isAuthenticated"
-        to="/login"
-        class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition-colors duration-300 ease-in-out"
-      >
-        Sign In
-      </router-link>
-      <button
-        v-else
-        @click="logoutUser"
-        class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition-colors duration-300 ease-in-out"
-      >
-        Logout
-      </button>
+          v-if="!isAuthenticated"
+          to="/login"
+          class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition-colors duration-300 ease-in-out"
+        >
+          Sign In
+        </router-link>
+        <button
+          v-else
+          @click="logoutUser"
+          class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition-colors duration-300 ease-in-out"
+        >
+          Logout
+        </button>
       </div>
     </div>
   </header>
 </template>
 
+
 <script>
 export default {
   computed: {
     isAuthenticated() {
-      // Check if a JWT is stored in the local storage
-      return localStorage.getItem("jwt") ? true : false;
+      return this.$store.state.isAuthenticated; // Get the authentication state from the store
     },
   },
   methods: {
     logoutUser() {
-      // Clear the JWT from local storage
-      localStorage.removeItem("jwt");
+      // Clear the JWT from cookies
+      this.$cookies.remove("jwt");
+      // Update the authentication state in the store
+      this.$store.dispatch("setAuthenticated", false);
       // Redirect the user to the home page
       this.$router.push("/");
     },
   },
 };
 </script>
+
 
 
 <style scoped>

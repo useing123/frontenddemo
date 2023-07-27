@@ -43,9 +43,8 @@
 </template>
 
 <script>
-// Import axios from @nuxtjs/axios
 import axios from "@nuxtjs/axios";
-import qs from "qs"; // You might need to install this package
+import qs from "qs";
 
 export default {
   data() {
@@ -68,13 +67,13 @@ export default {
           client_secret: "",
         });
 
-        // Use this.$axios to access Axios with the base URL from next.config.js
         const response = await this.$axios.post("/auth/users/tokens", data);
 
         if (response.data.access_token) {
           // Store the JWT in cookies
           this.$cookies.set("jwt", response.data.access_token);
           console.log("User logged in successfully!");
+          this.$store.dispatch("setAuthenticated", true); // Dispatch the action to update the store state
           this.$router.push("/dashboard");
         } else {
           this.error = "Error logging in: " + response.data.detail;
@@ -86,6 +85,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 .app-container {

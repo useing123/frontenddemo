@@ -18,8 +18,7 @@ export default {
   },
   router: {
     // Define routes for Auth pages
-    routes: [
-    ],
+    routes: [],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -42,7 +41,7 @@ export default {
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ["@nuxtjs/axios"],
+  modules: ["@nuxtjs/axios",  'cookie-universal-nuxt'],
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
 };

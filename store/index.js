@@ -1,9 +1,15 @@
 export const state = () => ({
-  email: '',
-})
+  isAuthenticated: false,
+});
 
 export const mutations = {
-  setEmail (state, email) {
-    state.email = email
+  SET_AUTHENTICATED(state, isAuthenticated) {
+    state.isAuthenticated = isAuthenticated;
   },
-}
+};
+
+export const actions = {
+  setAuthenticated({ commit }, isAuthenticated) {
+    commit("SET_AUTHENTICATED", isAuthenticated);
+  },
+};

@@ -63,11 +63,12 @@
 
 <script>
 import axios from "@nuxtjs/axios";
+import qs from "qs";
 
 export default {
   data() {
     return {
-      email: this.$store.state.email,
+      email: "",
       password: "",
       confirmPassword: "",
       error: "",
@@ -84,23 +85,25 @@ export default {
     async registerUser() {
       if (this.validEmail && this.password === this.confirmPassword) {
         this.error = "";
-        this.loading = true; 
+        this.loading = true;
         try {
           const response = await this.$axios.post("/auth/users", {
             email: this.email,
             password: this.password,
           });
 
-          this.loading = false; 
+          this.loading = false;
 
           if (response.data.email) {
             console.log("User registered successfully!");
-            this.$router.push("/login");
+
+            // Auto-login the user after registration
+            this.autoLogin();
           } else {
             this.error = "Error registering user: " + response.data.detail;
           }
         } catch (error) {
-          this.loading = false; 
+          this.loading = false;
           this.error = "Error registering user: " + error;
         }
       }
@@ -108,9 +111,33 @@ export default {
     validateEmail() {
       this.error = "";
     },
+    async autoLogin() {
+      try {
+        const data = qs.stringify({
+          grant_type: "",
+          username: this.email,
+          password: this.password,
+          scope: "",
+          client_id: "",
+          client_secret: "",
+        });
+
+        const response = await this.$axios.post("/auth/users/tokens", data);
+
+        if (response.data.access_token) {
+          // Store the JWT in cookies
+          this.$cookies.set("jwt", response.data.access_token);
+          console.log("User logged in successfully!");
+          this.$router.push("/dashboard"); // Redirect to the authenticated route
+        } else {
+          this.error = "Error logging in: " + response.data.detail;
+        }
+      } catch (error) {
+        this.error = "Error logging in: " + error;
+      }
+    },
   },
 };
-
 </script>
 
 <style scoped>
