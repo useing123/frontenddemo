@@ -95,16 +95,18 @@ export default {
       }
       if (this.genre) {
         mangas = mangas.filter(
-          (manga) => manga.genre.toLowerCase() === this.genre.toLowerCase()
+          (manga) =>
+            manga.genre &&
+            manga.genre.toLowerCase() === this.genre.toLowerCase()
         );
+      } else {
+        // Filter out mangas with null genre
+        mangas = mangas.filter((manga) => manga.genre !== null);
       }
       return mangas.slice(
         (this.currentPage - 1) * this.itemsPerPage,
         this.currentPage * this.itemsPerPage
       );
-    },
-    maxPage() {
-      return Math.ceil(this.mangas.length / this.itemsPerPage);
     },
   },
   methods: {

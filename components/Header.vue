@@ -5,10 +5,10 @@
       <div class="flex gap-6">
         <router-link
           v-if="isAuthenticated"
-          to="/"
+          to="/mangaCollection"
           class="transition-colors duration-300 ease-in-out text-base md:text-lg hover:text-yellow-500"
         >
-          Main
+          Read manga
         </router-link>
         <router-link
           v-if="isAuthenticated"

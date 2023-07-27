@@ -6,17 +6,21 @@
 
     <div v-if="mangaDetails" class="mt-4">
       <h2 class="font-bold text-lg mt-2">{{ mangaDetails.title }}</h2>
-      <p><strong>Genre:</strong> {{ mangaDetails.genre }}</p>
-      <p>
-        <strong>Main Characters:</strong> {{ mangaDetails.main_characters }}
-      </p>
-      <p><strong>Story:</strong> {{ mangaDetails.manga_chapters_story }}</p>
+      <p v-if="mangaDetails.genre"><strong>Genre:</strong> {{ mangaDetails.genre }}</p>
+      <p v-if="mangaDetails.main_characters"><strong>Main Characters:</strong> {{ mangaDetails.main_characters }}</p>
+      <p v-if="mangaDetails.manga_chapters_story"><strong>Story:</strong> {{ mangaDetails.manga_chapters_story }}</p>
+      <router-link :to="`/manga/${mangaDetails.id}/mangaFrames/${mangaDetails.frameId}`">
+      <button class="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4">
+        Read
+      </button>
+    </router-link>
     </div>
+    
 
     <div v-if="error" class="mt-4 text-red-500">{{ error }}</div>
   </div>
 </template>
-  
+
 <script>
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -30,13 +34,8 @@ export default {
     };
   },
   async created() {
-    // Check if mangaDetails already exist in LocalStorage
-    const storedMangaDetails = localStorage.getItem("mangaDetails");
-    if (storedMangaDetails) {
-      this.mangaDetails = JSON.parse(storedMangaDetails);
-    } else {
-      this.fetchMangaDetails();
-    }
+    // Fetch manga details on component creation
+    this.fetchMangaDetails();
   },
   methods: {
     async fetchMangaDetails() {
@@ -56,20 +55,16 @@ export default {
         this.mangaDetails = response.data;
         this.loading = false;
         this.error = null;
-
-        // Save the mangaDetails in LocalStorage
-        localStorage.setItem("mangaDetails", JSON.stringify(this.mangaDetails));
       } catch (error) {
         console.error(error);
         this.loading = false;
-        this.error = error.response.data.detail || "An error occurred.";
+        this.error = error.response?.data?.detail || "An error occurred.";
       }
     },
   },
 };
 </script>
-  
-  <style scoped>
+
+<style scoped>
 /* Add your styles here */
 </style>
-  
