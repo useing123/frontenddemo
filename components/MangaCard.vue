@@ -1,27 +1,60 @@
 <template>
-    <div class="bg-white rounded-lg shadow-md p-4">
-      <!-- Display manga details -->
-      <h2 class="text-xl font-semibold mb-2">{{ manga.title }}</h2>
-      <p class="text-gray-500 mb-2">{{ manga.genre }}</p>
-      <!-- You can add a manga image here if available -->
-      <img src="path/to/manga_image.jpg" alt="Manga Image" class="w-full mb-2 rounded-lg">
-      <p class="text-gray-600">{{ manga.chapters_title }}</p>
-      <button class="bg-blue-500 text-white px-4 py-2 rounded-lg mt-2">Read</button>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    props: {
-      manga: {
-        type: Object,
-        required: true
-      }
+  <div class="manga-card">
+    <h1 class="title">{{ manga.title }}</h1>
+    <h2 class="genre">{{ manga.genre }}</h2>
+    <p class="characters">{{ manga.main_characters }}</p>
+    <nuxt-link
+      :to="`/manga/${manga.manga_id}`"
+      class="read-more bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition-colors duration-300 ease-in-out"
+    >
+      Read More
+    </nuxt-link>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    manga: {
+      type: Object,
+      required: true
     }
-  };
-  </script>
-  
-  <style scoped>
-  /* Add any additional styling for the MangaCard component */
-  </style>
-  
+  }
+}
+</script>
+
+<style scoped>
+.manga-card {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.genre {
+  font-size: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.characters {
+  font-size: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.read-more {
+  /* Additional styling for the "Read More" link if needed */
+}
+</style>

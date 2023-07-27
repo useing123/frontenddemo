@@ -72,8 +72,8 @@ export default {
         const response = await this.$axios.post("/auth/users/tokens", data);
 
         if (response.data.access_token) {
-          // Store the JWT in local storage
-          localStorage.setItem("jwt", response.data.access_token);
+          // Store the JWT in cookies
+          this.$cookies.set("jwt", response.data.access_token);
           console.log("User logged in successfully!");
           this.$router.push("/dashboard");
         } else {

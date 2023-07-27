@@ -26,8 +26,8 @@ export default {
     return {
       faqItems: [
         {
-          question: 'What is Manga Generation?',
-          answer: 'Manga Generation is an online platform that offers a vast collection of manga, which are Japanese comic books or graphic novels. Our site provides a wide range of genres, including action, romance, fantasy, and more, catering to manga enthusiasts worldwide.',
+          question: 'What is Mangago?',
+          answer: 'Mangago is an online platform that offers a vast collection of manga, which are Japanese comic books or graphic novels. Our site provides a wide range of genres, including action, romance, fantasy, and more, catering to manga enthusiasts worldwide.',
           showAnswer: false,
         },
         {

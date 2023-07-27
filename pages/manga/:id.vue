@@ -17,7 +17,7 @@
   </div>
 </template>
   
-  <script>
+<script>
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -30,7 +30,13 @@ export default {
     };
   },
   async created() {
-    this.fetchMangaDetails();
+    // Check if mangaDetails already exist in LocalStorage
+    const storedMangaDetails = localStorage.getItem("mangaDetails");
+    if (storedMangaDetails) {
+      this.mangaDetails = JSON.parse(storedMangaDetails);
+    } else {
+      this.fetchMangaDetails();
+    }
   },
   methods: {
     async fetchMangaDetails() {
@@ -50,6 +56,9 @@ export default {
         this.mangaDetails = response.data;
         this.loading = false;
         this.error = null;
+
+        // Save the mangaDetails in LocalStorage
+        localStorage.setItem("mangaDetails", JSON.stringify(this.mangaDetails));
       } catch (error) {
         console.error(error);
         this.loading = false;
