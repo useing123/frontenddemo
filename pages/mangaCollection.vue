@@ -59,7 +59,7 @@ export default {
       search: "",
       genre: "",
       currentPage: 1,
-      itemsPerPage: 10, //change this to modify items per page
+      itemsPerPage: 9, //change this to modify items per page
       genres: [
         "Shonen",
         "Shoujo",

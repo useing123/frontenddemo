@@ -6,16 +6,24 @@
 
     <div v-if="mangaDetails" class="mt-4">
       <h2 class="font-bold text-lg mt-2">{{ mangaDetails.title }}</h2>
-      <p v-if="mangaDetails.genre"><strong>Genre:</strong> {{ mangaDetails.genre }}</p>
-      <p v-if="mangaDetails.main_characters"><strong>Main Characters:</strong> {{ mangaDetails.main_characters }}</p>
-      <p v-if="mangaDetails.manga_chapters_story"><strong>Story:</strong> {{ mangaDetails.manga_chapters_story }}</p>
-      <router-link :to="`/manga/${mangaDetails.id}/mangaFrames/${mangaDetails.frameId}`">
-      <button class="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4">
-        Read
-      </button>
-    </router-link>
+      <p v-if="mangaDetails.genre">
+        <strong>Genre:</strong> {{ mangaDetails.genre }}
+      </p>
+      <p v-if="mangaDetails.main_characters">
+        <strong>Main Characters:</strong> {{ mangaDetails.main_characters }}
+      </p>
+      <p v-if="mangaDetails.manga_chapters_story">
+        <strong>Story:</strong> {{ mangaDetails.manga_chapters_story }}
+      </p>
+      <router-link
+        v-if="mangaDetails.manga_id"
+        :to="`/mangaFrames/${mangaDetails.manga_id}`"
+      >
+        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4">
+          Read
+        </button>
+      </router-link>
     </div>
-    
 
     <div v-if="error" class="mt-4 text-red-500">{{ error }}</div>
   </div>

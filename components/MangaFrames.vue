@@ -1,14 +1,12 @@
 <template>
-  <div class="frames-container">
-    <div v-for="(imageUrl, frameName) in frames" :key="frameName" class="frame">
-      <canvas :ref="frameName" :width="canvasWidth" :height="canvasHeight"></canvas>
-      <div class="manga-cloud">
-        {{ text[frameName] }}
-      </div>
+  <div class="manga-container">
+    <div v-for="(imageUrl, frameName, index) in frames" :key="index" class="frame">
+      <canvas
+        :ref="frameName"
+        :width="canvasWidth"
+        :height="canvasHeight"
+      ></canvas>
     </div>
-    <router-link to="/manga/"> <!-- Add a back button to return to the manga details page -->
-      <button class="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4">Back to Manga Details</button>
-    </router-link>
   </div>
 </template>
 
@@ -16,11 +14,11 @@
 export default {
   props: {
     frames: {
-      type: Object,
+      type: Array,
       required: true,
     },
     text: {
-      type: Array,
+      type: Object,
       required: true,
     },
   },
@@ -51,7 +49,9 @@ export default {
             ctx.drawImage(img, 0, 0, this.canvasWidth, this.canvasHeight);
 
             // Draw the manga cloud with text on the canvas
-            this.drawMangaCloud(ctx, this.text[frameName]);
+            if (this.text && this.text[`Frame №${frameName + 1}`]) {
+              this.drawMangaCloud(ctx, this.text[`Frame №${frameName + 1}`]);
+            }
           };
         }
       }
@@ -87,17 +87,14 @@ export default {
 </script>
 
 <style>
-.frames-container {
+.manga-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .frame {
   margin-bottom: 20px;
-}
-
-.manga-cloud {
-  position: relative;
 }
 
 canvas {
