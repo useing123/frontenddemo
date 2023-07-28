@@ -57,16 +57,16 @@
 </template>
 
 <script>
-import axios from "@nuxtjs/axios";
-import qs from "qs";
+import axios from '@nuxtjs/axios';
+import qs from 'qs';
 
 export default {
   data() {
     return {
-      email: "",
-      password: "",
-      confirmPassword: "",
-      error: "",
+      email: '',
+      password: '',
+      confirmPassword: '',
+      error: '',
       loading: false,
     };
   },
@@ -79,10 +79,10 @@ export default {
   methods: {
     async registerUser() {
       if (this.validEmail && this.password === this.confirmPassword) {
-        this.error = "";
+        this.error = '';
         this.loading = true;
         try {
-          const response = await this.$axios.post("/auth/users", {
+          const response = await this.$axios.post('/auth/users', {
             email: this.email,
             password: this.password,
           });
@@ -90,50 +90,52 @@ export default {
           this.loading = false;
 
           if (response.data.email) {
-            console.log("User registered successfully!");
+            console.log('User registered successfully!');
 
             // Clear form fields after successful registration
-            this.email = "";
-            this.password = "";
-            this.confirmPassword = "";
+            this.email = '';
+            this.password = '';
+            this.confirmPassword = '';
 
             // Auto-login the user after registration
             this.autoLogin();
           } else {
-            this.error = "Error registering user: " + response.data.detail;
+            this.error = 'Error registering user: ' + response.data.detail;
           }
         } catch (error) {
           this.loading = false;
-          this.error = "Error registering user: " + error;
+          this.error = 'Error registering user: ' + error;
         }
       }
     },
     validateEmail() {
-      this.error = "";
+      this.error = '';
     },
     async autoLogin() {
       try {
         const data = qs.stringify({
-          grant_type: "",
+          grant_type: '',
           username: this.email,
           password: this.password,
-          scope: "",
-          client_id: "",
-          client_secret: "",
+          scope: '',
+          client_id: '',
+          client_secret: '',
         });
 
-        const response = await this.$axios.post("/auth/users/tokens", data);
+        const response = await this.$axios.post('/auth/users/tokens', data);
 
         if (response.data.access_token) {
           // Store the JWT in cookies
-          this.$cookies.set("jwt", response.data.access_token);
-          console.log("User logged in successfully!");
-          this.$router.push("/dashboard"); // Redirect to the authenticated route
+          this.$cookies.set('jwt', response.data.access_token, {
+            maxAge: 60 * 60 * 24 * 7, // Set the cookie to last for 1 week (in seconds)
+          });
+          console.log('User logged in successfully!');
+          this.$router.push('/dashboard'); // Redirect to the authenticated route
         } else {
-          this.error = "Error logging in: " + response.data.detail;
+          this.error = 'Error logging in: ' + response.data.detail;
         }
       } catch (error) {
-        this.error = "Error logging in: " + error;
+        this.error = 'Error logging in: ' + error;
       }
     },
   },

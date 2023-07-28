@@ -41,43 +41,45 @@
 </template>
 
 <script>
-import axios from "@nuxtjs/axios";
-import qs from "qs";
+import axios from '@nuxtjs/axios';
+import qs from 'qs';
 
 export default {
   data() {
     return {
-      email: "",
-      password: "",
-      error: "",
+      email: '',
+      password: '',
+      error: '',
     };
   },
   methods: {
     async loginUser() {
-      this.error = "";
+      this.error = '';
       try {
         const data = qs.stringify({
-          grant_type: "",
+          grant_type: '',
           username: this.email,
           password: this.password,
-          scope: "",
-          client_id: "",
-          client_secret: "",
+          scope: '',
+          client_id: '',
+          client_secret: '',
         });
 
-        const response = await this.$axios.post("/auth/users/tokens", data);
+        const response = await this.$axios.post('/auth/users/tokens', data);
 
         if (response.data.access_token) {
           // Store the JWT in cookies
-          this.$cookies.set("jwt", response.data.access_token);
-          console.log("User logged in successfully!");
-          this.$store.dispatch("setAuthenticated", true); // Dispatch the action to update the store state
-          this.$router.push("/dashboard");
+          this.$cookies.set('jwt', response.data.access_token, {
+            maxAge: 60 * 60 * 24 * 7, // Set the cookie to last for 1 week (in seconds)
+          });
+          console.log('User logged in successfully!');
+          this.$store.dispatch('setAuthenticated', true); // Dispatch the action to update the store state
+          this.$router.push('/dashboard');
         } else {
-          this.error = "Error logging in: " + response.data.detail;
+          this.error = 'Error logging in: ' + response.data.detail;
         }
       } catch (error) {
-        this.error = "Error logging in: " + error;
+        this.error = 'Error logging in: ' + error;
       }
     },
   },

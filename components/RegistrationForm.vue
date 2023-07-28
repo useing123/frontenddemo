@@ -28,7 +28,9 @@ export default {
   },
   methods: {
     registerUser() {
-      this.$store.commit('setEmail', this.email)
+      this.$cookies.set('user_email', this.email, {
+        maxAge: 60 * 60 * 24 * 7, // Set the cookie to last for 1 week (in seconds)
+      });
       this.$router.push({ name: 'register' });
     },
   },

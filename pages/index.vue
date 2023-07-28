@@ -1,25 +1,28 @@
 <template>
   <div class="app-container">
-    <div class="main-content flex justify-center items-center">
-      <div class="content-container text-center">
-        <hr class="my-8 border-gray-200">
-        <h1 class="font-extrabold mb-4 text-3xl md:text-6xl text-white">
+    <div class="main-content">
+      <div class="logo-container">
+        <h1 class="font-extrabold text-3xl md:text-6xl text-white">
           Mangago - Dive into Personalized Manga Adventures!
         </h1>
-        <p class="font-light mb-8 text-xl md:text-2xl text-gray-300">
-          Unleash your imagination in a universe of unseen, original artworks!
-        </p>
-        <hr class="my-8 border-gray-200">
-        <RegistrationForm />
-        <hr class="my-8 border-gray-200">
-        <div>
-          <h2 class="mb-4 font-semibold text-2xl text-white">Who We Are</h2>
-          <p class="mb-8 font-light text-xl md:text-2xl text-gray-300">At Mangago, we're transforming the way you experience manga. With personalization at our heart, we're making unseen artworks accessible for everyone.</p>
-        </div>
-        <hr class="my-8 border-gray-200">
-        <FAQSection />
-        <hr class="my-8 border-gray-200">
+        <img src="https://i.imgur.com/P6Ac62Y.png" alt="Mangago Logo" class="logo-img">
+        <!-- <img src="https://i.imgur.com/I6VTCD5.png" alt="Mangago Team" class="team-img"> -->
       </div>
+      <p class="font-light my-8 text-xl md:text-2xl text-gray-300">
+        Unleash your imagination in a universe of unseen, original artworks!
+      </p>
+      <hr class="my-8 border-gray-200">
+      <RegistrationForm />
+      <hr class="my-8 border-gray-200">
+      <div class="team-container">
+        <div>
+          <h2 class="font-semibold text-2xl text-white">Who We Are</h2>
+          <p class="font-light my-8 text-xl md:text-2xl text-gray-300">At Mangago, we're transforming the way you experience manga. With personalization at our heart, we're making unseen artworks accessible for everyone.</p>
+        </div>
+      </div>
+      <hr class="my-8 border-gray-200">
+      <FAQSection />
+      <hr class="my-8 border-gray-200">
     </div>
   </div>
 </template>
@@ -36,8 +39,33 @@ export default {
 };
 </script>
 
-
 <style scoped>
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.logo-img {
+  max-width: 100%;
+  height: auto;
+}
+
+.team-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.team-img {
+  max-width: 100%;
+  height: auto;
+}
+
+hr {
+  border-color: #2c2c2c;
+}
 .app-container {
   padding: 1rem;
   padding-top: 80px; /* Add top padding to accommodate for the fixed header */
@@ -47,12 +75,12 @@ export default {
   align-items: center;
   justify-content: center;
   background: #141414;
-  width: 100%; 
-  box-sizing: border-box; 
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .main-content {
-  width: 100%; 
+  width: 100%;
   text-align: center;
 }
 
