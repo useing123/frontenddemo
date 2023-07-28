@@ -45,7 +45,7 @@
   </div>
 </template>
   
-  <script>
+<script>
 import axios from "axios";
 import MangaCard from "@/components/MangaCard.vue";
 
@@ -86,6 +86,9 @@ export default {
     return { mangas: data };
   },
   computed: {
+    maxPage() {
+      return Math.ceil(this.mangas.length / this.itemsPerPage);
+    },
     filteredMangas() {
       let mangas = this.mangas;
       if (this.search) {
@@ -103,6 +106,15 @@ export default {
         // Filter out mangas with null genre
         mangas = mangas.filter((manga) => manga.genre !== null);
       }
+      // Filter out mangas without enough information
+      mangas = mangas.filter(
+        (manga) =>
+          manga.title &&
+          manga.genre &&
+          manga.main_characters &&
+          manga.manga_id
+      );
+
       return mangas.slice(
         (this.currentPage - 1) * this.itemsPerPage,
         this.currentPage * this.itemsPerPage
@@ -124,46 +136,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.app-container {
-  /* Styles for app-container */
-}
 
-.main-content {
-  /* Styles for main-content */
-}
-
-.page-button {
-  /* ... Your page-button styles ... */
-}
-
-.page-button:hover {
-  /* ... Your page-button:hover styles ... */
-}
-
-.page-button:disabled {
-  /* ... Your page-button:disabled styles ... */
-}
-
-.search-input,
-.genre-select {
-  padding: 6px 12px;
-  font-size: 16px;
-  border-radius: 4px;
-  border: 1px solid #e2e8f0;
-}
-
-.genre-select {
-  /* Add this style to make the text in the genre select black */
-  color: black;
-}
-
-/* Additional spacing for the grid */
-.grid {
-  margin: 0 -10px;
-}
-
-.grid > div {
-  padding: 0 10px;
-}
-</style>

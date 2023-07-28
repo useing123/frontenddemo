@@ -1,5 +1,5 @@
 <template>
-  <div class="genre-section bg-gray-900 p-6 rounded-lg shadow-md">
+  <div class="genre-section bg-gray-900 rounded-lg shadow-md">
     <h2 class="text-xl font-bold mb-4 text-white">Select Genres</h2>
     <div class="flex flex-wrap">
       <label

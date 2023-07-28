@@ -14,6 +14,7 @@
           class="p-2 w-full rounded-lg border border-gray-300"
           rows="4"
           required
+          placeholder="Random story"
         ></textarea>
         <div v-if="!prompt" class="text-red-500">Please enter a prompt.</div>
       </div>
@@ -38,7 +39,7 @@
         @click="checkManga"
         class="bg-green-500 text-white px-4 py-2 rounded-lg mt-2 w-full"
       >
-        Check My Manga
+        Read manga
       </button>
       <div v-if="mangaDetails" class="mt-4">
         <h2>
@@ -53,22 +54,82 @@
         <p>
           <strong>Main Characters:</strong> {{ mangaDetails.main_characters }}
         </p>
-
-        <!-- Hardcoded images -->
+        <p><strong>Story:</strong> {{ mangaDetails.manga_chapters_story }}</p>
+        <p class="text-red">We're working on generating images while you can see what we've generated.</p>
         <div class="mt-4">
           <img
-            src="https://i.imgur.com/DQTuipb.jpeg"
-            alt="Manga Image 1"
+            src="https://i.imgur.com/QFQPFGf.jpg"
+            alt="Frame №1"
             class="manga-image"
           />
           <img
-            src="https://i.imgur.com/mZK92kv.jpeg"
-            alt="Manga Image 2"
+            src="https://i.imgur.com/p9aBvaw.jpg"
+            alt="Frame №2"
             class="manga-image"
           />
           <img
-            src="https://i.imgur.com/NRUjw07.jpeg"
-            alt="Manga Image 3"
+            src="https://i.imgur.com/9QpU0q9.jpg"
+            alt="Frame №3"
+            class="manga-image"
+          />
+          <img
+            src="https://i.imgur.com/zM6sUdn.jpg"
+            alt="Frame №4"
+            class="manga-image"
+          />
+          <img
+            src="https://i.imgur.com/PwDPRRO.jpg"
+            alt="Frame №5"
+            class="manga-image"
+          />
+          <img
+            src="https://i.imgur.com/oLU4LPY.jpg"
+            alt="Frame №6"
+            class="manga-image"
+          />
+          <img
+            src="https://i.imgur.com/xBUHTEo.jpg"
+            alt="Frame №7"
+            class="manga-image"
+          />
+          <img
+            src="https://i.imgur.com/P5HDrb4.jpg"
+            alt="Frame №8"
+            class="manga-image"
+          />
+          <img
+            src="https://i.imgur.com/mTVnHCy.jpg"
+            alt="Frame №9"
+            class="manga-image"
+          />
+          <img
+            src="https://i.imgur.com/UhAAKIu.jpg"
+            alt="Frame №10"
+            class="manga-image"
+          />
+          <img
+            src="https://i.imgur.com/2u2O639.jpg"
+            alt="Frame №11"
+            class="manga-image"
+          />
+          <img
+            src="https://i.imgur.com/2PDdBn1.jpg"
+            alt="Frame №12"
+            class="manga-image"
+          />
+          <img
+            src="https://i.imgur.com/ENU3x28.jpg"
+            alt="Frame №13"
+            class="manga-image"
+          />
+          <img
+            src="https://i.imgur.com/yNSm6a3.jpg"
+            alt="Frame №14"
+            class="manga-image"
+          />
+          <img
+            src="https://i.imgur.com/yLTY3uZ.jpg"
+            alt="Frame №15"
             class="manga-image"
           />
         </div>
@@ -178,21 +239,11 @@ export default {
         alert("Please generate a manga first.");
         return;
       }
+      // Construct the link using the manga ID
+      const mangaLink = `/manga/${this.mangaDetails.manga_id}`;
 
-      let jwt;
-      if (process.client) {
-        jwt = localStorage.getItem("jwt");
-      }
-      const response = await axios.get(
-        `https://fastapi-9a00.onrender.com/manga/read/${this.mangaDetails.manga_id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        }
-      );
-
-      this.mangaDetails = response.data;
+      // Redirect to the link
+      this.$router.push(mangaLink);
     },
   },
 };

@@ -1,7 +1,12 @@
 <template>
   <header class="header bg-black text-white p-4">
     <div class="container mx-auto flex flex-wrap justify-between items-center">
-      <h1 class="font-bold text-2xl md:text-4xl">Mangago.ai</h1>
+      <router-link
+        :to="isAuthenticated ? '/mangaCollection' : '/'"
+        class="font-bold text-2xl md:text-4xl"
+      >
+        Mangago.ai
+      </router-link>
       <div class="flex gap-6">
         <router-link
           v-for="link in navigationLinks"
