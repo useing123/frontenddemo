@@ -136,4 +136,70 @@ export default {
 };
 </script>
 
+<style scoped>
+.app-container {
+  padding: 0 15px; /* Small devices (landscape phones, 576px and up) */
+}
 
+@media (min-width: 576px) {
+  .app-container {
+    padding: 0 20px; /* Medium devices (tablets, 768px and up) */
+  }
+}
+
+@media (min-width: 768px) {
+  .app-container {
+    padding: 0 30px; /* Large devices (desktops, 992px and up) */
+  }
+}
+
+@media (min-width: 992px) {
+  .app-container {
+    padding: 0 50px; /* Extra large devices (large desktops, 1200px and up) */
+  }
+}
+.page-button {
+  background-color: #f56565;
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s ease-in-out;
+  margin: 10px;
+}
+
+.page-button:hover {
+  background-color: #e53e3e;
+}
+
+.page-button:disabled {
+  background-color: #a0aec0;
+  cursor: not-allowed;
+}
+
+.search-input,
+.genre-select {
+  padding: 6px 12px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+}
+.search-input,
+
+.genre-select {
+  /* Add this style to make the text in the genre select black */
+  color: black;
+}
+
+/* Additional spacing for the grid */
+.grid {
+  margin: 0 -10px;
+}
+
+.grid > div {
+  padding: 0 10px;
+}
+</style>

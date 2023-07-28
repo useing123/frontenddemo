@@ -2,7 +2,7 @@
   <div class="manga-card">
     <h1 class="title">{{ manga.title }}</h1>
     <h2 class="genre">{{ manga.genre }}</h2>
-    <p class="characters">{{ manga.main_characters }}</p>
+    <p class="characters">{{ trimmedCharacters }}</p>
     <nuxt-link
       :to="`/manga/${manga.manga_id}`"
       class="read-more bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition-colors duration-300 ease-in-out"
@@ -19,9 +19,19 @@ export default {
       type: Object,
       required: true
     }
+  },
+  computed: {
+    trimmedCharacters() {
+      if (this.manga.main_characters.length > 240) {
+        return this.manga.main_characters.substring(0, 240) + '...';
+      } else {
+        return this.manga.main_characters;
+      }
+    }
   }
 }
 </script>
+
 
 <style scoped>
 .manga-card {
