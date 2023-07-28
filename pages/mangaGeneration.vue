@@ -160,6 +160,7 @@ textarea {
 <script>
 import axios from "axios";
 import GenreSelection from "~/components/GenreSelection.vue";
+import Cookies from 'js-cookie'; // Include the js-cookie package
 
 export default {
   components: {
@@ -186,7 +187,7 @@ export default {
       };
 
       try {
-        const jwt = localStorage.getItem("jwt");
+        const jwt = Cookies.get('jwt'); // Get the JWT token from a cookie
         const createResponse = await this.createManga(mangaCreateRequest, jwt);
         this.pollMangaDetails(createResponse.data.manga_id, jwt);
 
