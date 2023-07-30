@@ -1,3 +1,10 @@
+<template>
+  <div id="app">
+    <MangaFrames v-if="frames.length && Object.keys(text).length && Object.keys(dialogs).length"
+                 :frames="frames" :text="text" :dialogs="dialogs" />
+  </div>
+</template>
+
 <script>
 import axios from 'axios';
 import MangaFrames from '~/components/MangaFrames.vue';
@@ -10,6 +17,7 @@ export default {
     return {
       frames: [],
       text: {},
+      dialogs: {},
       loading: true,
       error: null,
     };
@@ -26,9 +34,20 @@ export default {
 
       this.frames = data.imgur_links;
 
-      const descriptions = data.manga_frames_description.split('\n\n');
+      const descriptions = data.manga_frames_description.split('Frame №');
+      const dialogs = data.manga_story_dialogs.split('Frame №');
+
+      descriptions.shift(); // Remove first empty element
+      dialogs.shift(); // Remove first empty element
+
       descriptions.forEach((description, index) => {
-        this.text[`Frame №${index + 1}`] = description.trim();
+        const descriptionText = description.split(':')[1].trim(); // Get only the description after ":"
+        this.text[`Frame №${index + 1}`] = descriptionText;
+      });
+
+      dialogs.forEach((dialog, index) => {
+        const dialogText = dialog.split(':')[1].trim(); // Get only the dialog after ":"
+        this.dialogs[`Frame №${index + 1}`] = dialogText;
       });
 
       this.loading = false;
@@ -40,3 +59,7 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+/* Add your styles here */
+</style>

@@ -59,7 +59,7 @@ export default {
     drawMangaCloud(ctx, text) {
       // Set font properties
       const fontSize = 20;
-      const fontFamily = "SanFra";
+      const fontFamily = "'Comic Neue', cursive";  // Using the Comic Neue font
       ctx.font = `${fontSize}px ${fontFamily}`;
 
       // Calculate the position to center the text

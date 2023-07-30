@@ -167,7 +167,7 @@ export default {
           this.loading = false;
           clearInterval(intervalId);
         }
-      }, 25000); // Poll every 25 seconds
+      }, 10000); // Poll every 25 seconds
     },
     clearForm() {
       this.prompt = "";
