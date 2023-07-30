@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="app-container p-4 md:p-6 lg:p-10">
     <div class="main-content flex flex-col items-center">
       <h1 class="text-3xl font-semibold text-white mb-4">
         All Manga Collections
@@ -12,9 +12,9 @@
           v-model="search"
           type="text"
           placeholder="Search..."
-          class="search-input"
+          class="search-input py-2 px-4 text-base rounded border border-gray-300"
         />
-        <select v-model="genre" class="genre-select">
+        <select v-model="genre" class="genre-select py-2 px-4 text-base rounded border border-gray-300">
           <option value="">All Genres</option>
           <option v-for="g in genres" :key="g" :value="g">{{ g }}</option>
         </select>
@@ -26,15 +26,15 @@
       </div>
       <div class="pagination-container">
         <button
-          class="page-button"
+          class="page-button bg-red-600 text-white py-2 px-4 font-medium rounded disabled:bg-gray-400 disabled:cursor-not-allowed"
           @click="prevPage"
           :disabled="currentPage == 1"
         >
           Prev
         </button>
-        <span>Page: {{ currentPage }}</span>
+        <span class="text-base">Page: {{ currentPage }}</span>
         <button
-          class="page-button"
+          class="page-button bg-red-600 text-white py-2 px-4 font-medium rounded disabled:bg-gray-400 disabled:cursor-not-allowed"
           @click="nextPage"
           :disabled="currentPage == maxPage"
         >
@@ -44,7 +44,7 @@
     </div>
   </div>
 </template>
-  
+
 <script>
 import axios from "axios";
 import MangaCard from "@/components/MangaCard.vue";
@@ -87,15 +87,18 @@ export default {
   },
   computed: {
     maxPage() {
-      return Math.ceil(this.mangas.length / this.itemsPerPage);
+      return Math.ceil(this.filteredMangas.length / this.itemsPerPage);
     },
     filteredMangas() {
-      let mangas = this.mangas;
+      let mangas = this.mangas.slice(); // Create a copy of the original array
+
       if (this.search) {
+        const searchLower = this.search.toLowerCase();
         mangas = mangas.filter((manga) =>
-          manga.title.toLowerCase().includes(this.search.toLowerCase())
+          manga.title.toLowerCase().includes(searchLower)
         );
       }
+
       if (this.genre) {
         mangas = mangas.filter(
           (manga) =>
@@ -136,70 +139,6 @@ export default {
 };
 </script>
 
-<style scoped>
-.app-container {
-  padding: 0 15px; /* Small devices (landscape phones, 576px and up) */
-}
-
-@media (min-width: 576px) {
-  .app-container {
-    padding: 0 20px; /* Medium devices (tablets, 768px and up) */
-  }
-}
-
-@media (min-width: 768px) {
-  .app-container {
-    padding: 0 30px; /* Large devices (desktops, 992px and up) */
-  }
-}
-
-@media (min-width: 992px) {
-  .app-container {
-    padding: 0 50px; /* Extra large devices (large desktops, 1200px and up) */
-  }
-}
-.page-button {
-  background-color: #f56565;
-  color: #ffffff;
-  padding: 6px 12px;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-  text-decoration: none;
-  display: inline-block;
-  transition: background-color 0.3s ease-in-out;
-  margin: 10px;
-}
-
-.page-button:hover {
-  background-color: #e53e3e;
-}
-
-.page-button:disabled {
-  background-color: #a0aec0;
-  cursor: not-allowed;
-}
-
-.search-input,
-.genre-select {
-  padding: 6px 12px;
-  font-size: 16px;
-  border-radius: 4px;
-  border: 1px solid #e2e8f0;
-}
-.search-input,
-
-.genre-select {
-  /* Add this style to make the text in the genre select black */
-  color: black;
-}
-
-/* Additional spacing for the grid */
-.grid {
-  margin: 0 -10px;
-}
-
-.grid > div {
-  padding: 0 10px;
-}
+<style>
+/* Remove the scoped attribute from style tags as Tailwind CSS doesn't require it */
 </style>

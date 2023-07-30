@@ -15,6 +15,7 @@
       <RegistrationForm />
       <hr class="my-8 border-gray-200">
       <div class="team-container">
+        <CookieConsent />
         <div>
           <h2 class="font-semibold text-2xl text-white">Who We Are</h2>
           <p class="font-light my-8 text-xl md:text-2xl text-gray-300">At Mangago, we're transforming the way you experience manga. With personalization at our heart, we're making unseen artworks accessible for everyone.</p>
@@ -30,11 +31,13 @@
 <script>
 import RegistrationForm from "@/components/RegistrationForm.vue";
 import FAQSection from "@/components/FAQSection.vue";
+import CookieConsent from "@/components/CookieConsent.vue";
 
 export default {
   components: {
     RegistrationForm,
     FAQSection,
+    CookieConsent,
   },
 };
 </script>

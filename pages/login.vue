@@ -41,7 +41,6 @@
 </template>
 
 <script>
-import axios from '@nuxtjs/axios';
 import qs from 'qs';
 
 export default {
