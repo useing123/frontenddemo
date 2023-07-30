@@ -59,7 +59,7 @@ export default {
     drawMangaCloud(ctx, text) {
       // Set font properties
       const fontSize = 20;
-      const fontFamily = "Arial";
+      const fontFamily = "SanFra";
       ctx.font = `${fontSize}px ${fontFamily}`;
 
       // Calculate the position to center the text

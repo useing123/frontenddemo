@@ -5,131 +5,32 @@
 
     <form class="flex flex-col mt-4 w-full" @submit.prevent="submitForm">
       <div class="form-group">
-        <label class="text-lg font-semibold mb-2" for="prompt"
-          >Enter Prompt:</label
-        >
-        <textarea
-          id="prompt"
-          v-model="prompt"
-          class="p-2 w-full rounded-lg border border-gray-300"
-          rows="4"
-          required
-          placeholder="Random story"
-        ></textarea>
+        <label class="text-lg font-semibold mb-2" for="prompt">Enter Prompt:</label>
+        <textarea id="prompt" v-model="prompt" class="p-2 w-full rounded-lg border border-gray-300" rows="4" required placeholder="Random story"></textarea>
         <div v-if="!prompt" class="text-red-500">Please enter a prompt.</div>
       </div>
 
-      <button
-        type="submit"
-        :disabled="!prompt || loading"
-        class="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4 w-full"
-      >
+      <button type="submit" :disabled="!prompt || loading" class="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4 w-full">
         {{ loading ? "Generating Manga..." : "Generate Manga" }}
       </button>
 
-      <button
-        type="button"
-        @click="clearForm"
-        class="bg-gray-500 text-white px-4 py-2 rounded-lg mt-2 w-full"
-      >
-        Clear
-      </button>
-      <button
-        type="button"
-        @click="checkManga"
-        class="bg-green-500 text-white px-4 py-2 rounded-lg mt-2 w-full"
-      >
-        Read manga
-      </button>
+      <button type="button" @click="clearForm" class="bg-gray-500 text-white px-4 py-2 rounded-lg mt-2 w-full">Clear</button>
+      <button type="button" @click="checkManga" class="bg-green-500 text-white px-4 py-2 rounded-lg mt-2 w-full">Read manga</button>
+      
       <div v-if="mangaDetails" class="mt-4">
-        <h2>
-          Your manga is ready! Here is the ID:
-          <span class="font-bold text-blue-500">{{
-            mangaDetails.manga_id
-          }}</span>
-        </h2>
+        <h2>Your manga is ready! Here is the ID: <span class="font-bold text-blue-500">{{ mangaDetails.manga_id }}</span></h2>
         <h3 class="font-bold text-lg mt-2">Manga Details:</h3>
         <p><strong>Title:</strong> {{ mangaDetails.title }}</p>
         <p><strong>Genre:</strong> {{ mangaDetails.genre }}</p>
-        <p>
-          <strong>Main Characters:</strong> {{ mangaDetails.main_characters }}
-        </p>
+        <p><strong>Main Characters:</strong> {{ mangaDetails.main_characters }}</p>
         <p><strong>Story:</strong> {{ mangaDetails.manga_chapters_story }}</p>
         <p class="text-red">We're working on generating images while you can see what we've generated.</p>
-        <div class="mt-4">
+        <div class="mt-4" v-if="mangaDetails.imgur_links">
           <img
-            src="https://i.imgur.com/QFQPFGf.jpg"
-            alt="Frame №1"
-            class="manga-image"
-          />
-          <img
-            src="https://i.imgur.com/p9aBvaw.jpg"
-            alt="Frame №2"
-            class="manga-image"
-          />
-          <img
-            src="https://i.imgur.com/9QpU0q9.jpg"
-            alt="Frame №3"
-            class="manga-image"
-          />
-          <img
-            src="https://i.imgur.com/zM6sUdn.jpg"
-            alt="Frame №4"
-            class="manga-image"
-          />
-          <img
-            src="https://i.imgur.com/PwDPRRO.jpg"
-            alt="Frame №5"
-            class="manga-image"
-          />
-          <img
-            src="https://i.imgur.com/oLU4LPY.jpg"
-            alt="Frame №6"
-            class="manga-image"
-          />
-          <img
-            src="https://i.imgur.com/xBUHTEo.jpg"
-            alt="Frame №7"
-            class="manga-image"
-          />
-          <img
-            src="https://i.imgur.com/P5HDrb4.jpg"
-            alt="Frame №8"
-            class="manga-image"
-          />
-          <img
-            src="https://i.imgur.com/mTVnHCy.jpg"
-            alt="Frame №9"
-            class="manga-image"
-          />
-          <img
-            src="https://i.imgur.com/UhAAKIu.jpg"
-            alt="Frame №10"
-            class="manga-image"
-          />
-          <img
-            src="https://i.imgur.com/2u2O639.jpg"
-            alt="Frame №11"
-            class="manga-image"
-          />
-          <img
-            src="https://i.imgur.com/2PDdBn1.jpg"
-            alt="Frame №12"
-            class="manga-image"
-          />
-          <img
-            src="https://i.imgur.com/ENU3x28.jpg"
-            alt="Frame №13"
-            class="manga-image"
-          />
-          <img
-            src="https://i.imgur.com/yNSm6a3.jpg"
-            alt="Frame №14"
-            class="manga-image"
-          />
-          <img
-            src="https://i.imgur.com/yLTY3uZ.jpg"
-            alt="Frame №15"
+            v-for="(imgLink, index) in mangaDetails.imgur_links"
+            :key="index"
+            :src="imgLink"
+            :alt="`Frame №${index + 1}`"
             class="manga-image"
           />
         </div>
@@ -155,12 +56,17 @@ textarea {
 .text-red-500 {
   color: #e50914;
 }
+
+.manga-image {
+  max-width: 100%;
+  height: auto;
+}
 </style>
 
 <script>
 import axios from "axios";
 import GenreSelection from "~/components/GenreSelection.vue";
-import Cookies from 'js-cookie'; // Include the js-cookie package
+import Cookies from 'js-cookie';
 
 export default {
   components: {
@@ -181,13 +87,13 @@ export default {
 
       this.loading = true;
       const mangaCreateRequest = {
-        genre: this.selectedGenres.join(","), // Convert the array of genres to a comma-separated string
+        genre: this.selectedGenres.join(","),
         prompt: this.prompt,
-        chapters_count: 1, // You can set the chapters_count value according to your requirements
+        chapters_count: 1,
       };
 
       try {
-        const jwt = Cookies.get('jwt'); // Get the JWT token from a cookie
+        const jwt = Cookies.get('jwt');
         const createResponse = await this.createManga(mangaCreateRequest, jwt);
         this.pollMangaDetails(createResponse.data.manga_id, jwt);
 
@@ -213,7 +119,7 @@ export default {
     async pollMangaDetails(mangaId, jwt) {
       const intervalId = setInterval(async () => {
         const response = await axios.get(
-          `https://fastapi-9a00.onrender.com/manga/read/${mangaId}`,
+          `https://fastapi-9a00.onrender.com/manga/read/details/${mangaId}`,
           {
             headers: {
               Authorization: `Bearer ${jwt}`,
@@ -240,10 +146,7 @@ export default {
         alert("Please generate a manga first.");
         return;
       }
-      // Construct the link using the manga ID
       const mangaLink = `/manga/${this.mangaDetails.manga_id}`;
-
-      // Redirect to the link
       this.$router.push(mangaLink);
     },
   },

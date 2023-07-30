@@ -23,9 +23,9 @@ export default {
     const response = await axios.get(`https://fastapi-9a00.onrender.com/manga/read/details/${id}`);
     const data = response.data;
 
-    this.frames = data.imgur_links.split(',\n').map(link => link.trim().replace(/"/g, ''));
+    this.frames = data.imgur_links; // assuming 'imgur_links' is an array of strings
 
-    const descriptions = data.manga_frames_description.split('\n');
+    const descriptions = data.manga_frames_description.split('\n\n');
     descriptions.forEach((description, index) => {
       this.text[`Frame №${index + 1}`] = description.trim();
     });
