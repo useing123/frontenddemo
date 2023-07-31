@@ -1,6 +1,10 @@
 <template>
   <div class="manga-container">
-    <div v-for="(imageUrl, frameName, index) in frames" :key="index" class="frame">
+    <div
+      v-for="(imageUrl, frameName, index) in frames"
+      :key="index"
+      class="frame"
+    >
       <canvas
         :ref="frameName"
         :width="canvasWidth"
@@ -17,7 +21,7 @@ export default {
       type: Array,
       required: true,
     },
-    text: {
+    dialogs: {
       type: Object,
       required: true,
     },
@@ -48,40 +52,62 @@ export default {
           img.onload = () => {
             ctx.drawImage(img, 0, 0, this.canvasWidth, this.canvasHeight);
 
-            // Draw the manga cloud with text on the canvas
-            if (this.text && this.text[`Frame №${frameName + 1}`]) {
-              this.drawMangaCloud(ctx, this.text[`Frame №${frameName + 1}`]);
+            // Draw the manga cloud with dialog on the canvas
+            if (
+              this.dialogs &&
+              this.dialogs[`Frame №${Number(frameName) + 1}`]
+            ) {
+              this.drawMangaCloud(
+                ctx,
+                this.dialogs[`Frame №${Number(frameName) + 1}`]
+              );
             }
           };
         }
       }
     },
-    drawMangaCloud(ctx, text) {
-      // Set font properties
-      const fontSize = 15;
-      const fontFamily = "Arial";  // Using the Comic Neue font
-      ctx.font = `${fontSize}px ${fontFamily}`;
+    drawMangaCloud(ctx, dialog) {
+  // Set font properties
+  const fontSize = 20;
+  const fontFamily = "Arial"; 
+  ctx.font = `${fontSize}px ${fontFamily}`;
+  ctx.textAlign = "right";
 
-      // Calculate the position to center the text
-      const textWidth = ctx.measureText(text).width;
-      const x = (this.canvasWidth - textWidth) / 2;
-      const y = this.canvasHeight - 80;
+  // Split the dialog into lines
+  const words = dialog.split(' ');
+  const lines = [];
+  let currentLine = words[0];
 
-      // Set the fill color
-      ctx.fillStyle = "white";
+  for (let i = 1; i < words.length; i++) {
+    const word = words[i];
+    const width = ctx.measureText(currentLine + ' ' + word).width;
+    if (width < this.canvasWidth - 80) {
+      currentLine += ' ' + word;
+    } else {
+      lines.push(currentLine);
+      currentLine = word;
+    }
+  }
+  lines.push(currentLine);
 
-      // Draw the cloud background
-      const cloudPadding = 25;
-      const cloudHeight = fontSize + cloudPadding * 3;
-      const cloudWidth = textWidth + cloudPadding * 2;
-      const cloudX = x - cloudPadding;
-      const cloudY = y - cloudPadding;
-      ctx.fillRect(cloudX, cloudY, cloudWidth, cloudHeight);
+  // Draw each line on the canvas
+  lines.forEach((line, index) => {
+    const x = this.canvasWidth - 40;  // 40px padding from the right edge
+    const y = 40 + index * (fontSize + 10);  // 40px padding from the top edge, 10px line spacing
 
-      // Render the text on the canvas
-      ctx.fillStyle = "black";
-      ctx.fillText(text, x, y);
-    },
+    // Draw the cloud background
+    ctx.fillStyle = "white";
+    const cloudWidth = ctx.measureText(line).width + 20;  // 20px padding
+    const cloudHeight = fontSize + 10;  // 10px padding
+    const cloudX = x - cloudWidth + 10;  // 10px padding
+    const cloudY = y - fontSize;
+    ctx.fillRect(cloudX, cloudY, cloudWidth, cloudHeight);
+
+    // Render the text on the canvas
+    ctx.fillStyle = "black";
+    ctx.fillText(line, x, y);
+  });
+},
   },
 };
 </script>
