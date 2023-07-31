@@ -127,10 +127,10 @@ export default {
         if (response.data.access_token) {
           // Store the JWT in cookies
           this.$cookies.set('jwt', response.data.access_token, {
-            maxAge: 60 * 60 * 24 * 7, // Set the cookie to last for 1 week (in seconds)
+            maxAge: 60 * 60 * 24 * 1, // Set the cookie to last for 1 day (in seconds)
           });
           console.log('User logged in successfully!');
-          this.$router.push('/dashboard'); // Redirect to the authenticated route
+          this.$router.push('/account'); // Redirect to the authenticated route
         } else {
           this.error = 'Error logging in: ' + response.data.detail;
         }

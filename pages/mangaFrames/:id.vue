@@ -24,9 +24,15 @@ export default {
   },
   async created() {
     try {
-      const id = this.$route.params.id;  // get dynamic id
+      const id = this.$route.params.id;
       const response = await axios.get(`https://fastapi-9a00.onrender.com/manga/read/details/${id}`);
       const data = response.data;
+      const descriptions = data.manga_frames_description;
+      const dialogs = data.manga_story_dialogs;
+
+      // Убираем лишний текст "Manga frames description: " и "Manga story dialogs: "
+      const descriptionsWithoutPrefix = descriptions.replace('Manga frames description: ', '');
+      const dialogsWithoutPrefix = dialogs.replace('Manga story dialogs: ', '');
 
       if (!Array.isArray(data.imgur_links)) {
         throw new Error('Invalid imgur_links data format.');
@@ -34,20 +40,27 @@ export default {
 
       this.frames = data.imgur_links;
 
-      const descriptions = data.manga_frames_description.split('Frame №');
-      const dialogs = data.manga_story_dialogs.split('Frame №');
+      const descriptionRegEx = /Frame №(\d+):(.+)/;
 
-      descriptions.shift(); // Remove first empty element
-      dialogs.shift(); // Remove first empty element
+      const descriptionsSplit = descriptionsWithoutPrefix.split('\n\n');
+      const dialogsSplit = dialogsWithoutPrefix.split('\n\n');
 
-      descriptions.forEach((description, index) => {
-        const descriptionText = description.split(':')[1].trim(); // Get only the description after ":"
-        this.text[`Frame №${index + 1}`] = descriptionText;
+      descriptionsSplit.forEach((description) => {
+        const match = descriptionRegEx.exec(description);
+        if (match) {
+          const frameNumber = match[1];
+          const descriptionText = match[2].trim();
+          this.text[`Frame №${frameNumber}`] = descriptionText;
+        }
       });
 
-      dialogs.forEach((dialog, index) => {
-        const dialogText = dialog.split(':')[1].trim(); // Get only the dialog after ":"
-        this.dialogs[`Frame №${index + 1}`] = dialogText;
+      dialogsSplit.forEach((dialog) => {
+        const match = descriptionRegEx.exec(dialog);
+        if (match) {
+          const frameNumber = match[1];
+          const dialogText = match[2].trim();
+          this.dialogs[`Frame №${frameNumber}`] = dialogText;
+        }
       });
 
       this.loading = false;

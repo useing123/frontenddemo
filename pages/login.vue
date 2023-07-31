@@ -73,7 +73,7 @@ export default {
           });
           console.log('User logged in successfully!');
           this.$store.dispatch('setAuthenticated', true); // Dispatch the action to update the store state
-          this.$router.push('/dashboard');
+          this.$router.push('/account');
         } else {
           this.error = 'Error logging in: ' + response.data.detail;
         }

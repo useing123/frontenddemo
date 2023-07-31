@@ -6,6 +6,7 @@
           Mangago - Dive into Personalized Manga Adventures!
         </h1>
         <img src="https://i.imgur.com/P6Ac62Y.png" alt="Mangago Logo" class="logo-img">
+        <!-- <img src="images/background.png" alt=""> -->
         <!-- <img src="https://i.imgur.com/I6VTCD5.png" alt="Mangago Team" class="team-img"> -->
       </div>
       <p class="font-light my-8 text-xl md:text-2xl text-gray-300">
@@ -27,17 +28,32 @@
     </div>
   </div>
 </template>
-
 <script>
+import axios from 'axios';
 import RegistrationForm from "@/components/RegistrationForm.vue";
 import FAQSection from "@/components/FAQSection.vue";
 import CookieConsent from "@/components/CookieConsent.vue";
 
 export default {
+  data() {
+    return {
+      isLoading: true,
+    };
+  },
   components: {
     RegistrationForm,
     FAQSection,
     CookieConsent,
+  },
+  created() {
+    axios.get('https://fastapi-9a00.onrender.com/')
+      .then(response => {
+        console.log(response);
+        this.isLoading = false;
+      })
+      .catch(error => {
+        console.log(error);
+      });
   },
 };
 </script>
