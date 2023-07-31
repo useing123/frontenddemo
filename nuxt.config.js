@@ -4,9 +4,12 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: "Mangago",
+    title: "Mangai.me",
     htmlAttrs: {
       lang: "en",
+      lang: "ja",
+      lang: "ru",
+      lang: "kz",
     },
     meta: [
       { charset: "utf-8" },
@@ -41,7 +44,7 @@ export default {
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ["@nuxtjs/axios",  'cookie-universal-nuxt'],
+  modules: ["@nuxtjs/axios", "cookie-universal-nuxt"],
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
 };

@@ -1,7 +1,10 @@
 <template>
   <footer class="footer mt-8">
     <div class="text-white text-center">
-      <p>Mangago by Ossein</p>
+      <p>Mangai.me by Ossein</p>
+      <p>&copy; 2023</p>
+      <p>All Rights Reserved</p>
+      <p>Kaspi.kz donations +7 775 832 63 97</p>
       <div class="footer-links">
         <a href="/privacy-policy">Privacy Policy</a>
         <a href="/terms-of-service">Terms of Service</a>

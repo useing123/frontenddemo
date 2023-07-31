@@ -3,11 +3,11 @@
     <div class="main-content">
       <div class="logo-container">
         <h1 class="font-extrabold text-3xl md:text-6xl text-white">
-          Mangago - Dive into Personalized Manga Adventures!
+          Mangai.me - Dive into Personalized Manga Adventures!
         </h1>
-        <img src="https://i.imgur.com/P6Ac62Y.png" alt="Mangago Logo" class="logo-img">
+        <img src="https://i.imgur.com/P6Ac62Y.png" alt="Mangai.me Logo" class="logo-img">
         <!-- <img src="images/background.png" alt=""> -->
-        <!-- <img src="https://i.imgur.com/I6VTCD5.png" alt="Mangago Team" class="team-img"> -->
+        <!-- <img src="https://i.imgur.com/I6VTCD5.png" alt="Mangai.me Team" class="team-img"> -->
       </div>
       <p class="font-light my-8 text-xl md:text-2xl text-gray-300">
         Unleash your imagination in a universe of unseen, original artworks!
@@ -19,7 +19,7 @@
         <CookieConsent />
         <div>
           <h2 class="font-semibold text-2xl text-white">Who We Are</h2>
-          <p class="font-light my-8 text-xl md:text-2xl text-gray-300">At Mangago, we're transforming the way you experience manga. With personalization at our heart, we're making unseen artworks accessible for everyone.</p>
+          <p class="font-light my-8 text-xl md:text-2xl text-gray-300">At Mangai.me, we're transforming the way you experience manga. With personalization at our heart, we're making unseen artworks accessible for everyone.</p>
         </div>
       </div>
       <hr class="my-8 border-gray-200">

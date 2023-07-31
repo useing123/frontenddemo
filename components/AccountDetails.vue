@@ -1,21 +1,20 @@
 <template>
-    <div class="account-details">
-      <h1 class="account-header">Account Details</h1>
-      <div v-if="user">
-        <p><strong>Name:</strong> {{ user.name }}</p>
-        <!-- <p><strong>Surname:</strong>{{  }} </p> -->
-        <p><strong>Email:</strong> {{ user.email }}</p>
-      </div>
-      <div v-else-if="loading">
-        Loading account details...
-      </div>
-      <div v-else>
-        Error loading account details.
-        <button @click="fetchUserDataFromServer">Try Again</button>
-      </div>
-      <button @click="logout" class="logout-btn">Logout</button>
+  <div class="account-details bg-gray-800 text-white rounded-lg p-6 shadow-lg">
+    <h1 class="account-header text-3xl font-bold mb-4">Account Details</h1>
+    <div v-if="user">
+      <p class="text-lg"><strong>Name:</strong> {{ user.name }}</p>
+      <p class="text-lg"><strong>Email:</strong> {{ user.email }}</p>
     </div>
-  </template>
+    <div v-else-if="loading">
+      Loading account details...
+    </div>
+    <div v-else>
+      Error loading account details.
+      <button @click="fetchUserDataFromServer" class="retry-btn bg-red-500 text-white rounded px-4 py-2 mt-4">Try Again</button>
+    </div>
+    <button @click="logout" class="logout-btn bg-red-500 text-white rounded px-4 py-2 mt-4">Logout</button>
+  </div>
+</template>
   
   <script>
   import axios from 'axios';
@@ -61,22 +60,11 @@
   };
   </script>
   
-  <style scoped>
+<style scoped>
+  /* Adjust styles here */
   .account-details {
-    padding: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-  
-  .account-header {
-    font-size: 2em;
-    margin-bottom: 1rem;
-  }
-  
-  .logout-btn {
-    padding: 0.5rem;
-    font-size: 1em;
-  }
-  </style>
-  
+</style>

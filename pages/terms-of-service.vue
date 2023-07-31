@@ -3,15 +3,15 @@
       <div class="main-content">
         <div class="logo-container">
           <!-- <h1 class="font-extrabold text-3xl md:text-6xl text-white">
-            Mangago - Dive into Personalized Manga Adventures!
+            Mangai.me - Dive into Personalized Manga Adventures!
           </h1> -->
-          <!-- <img src="https://i.imgur.com/P6Ac62Y.png" alt="Mangago Logo" class="logo-img"> -->
+          <!-- <img src="https://i.imgur.com/P6Ac62Y.png" alt="Mangai.me Logo" class="logo-img"> -->
         </div>
         <hr class="my-8 border-gray-200">
         <div class="tos-container">
           <h2 class="font-semibold text-2xl text-white">Terms of Service</h2>
           <p class="font-light my-8 text-xl md:text-2xl text-gray-300">
-            The following terms and conditions (the "Agreement") govern all use of the Mangago website and all content, services, and products available at or through the website.
+            The following terms and conditions (the "Agreement") govern all use of the Mangai.me website and all content, services, and products available at or through the website.
             <!-- Add your terms of service content here -->
           </p>
         </div>
