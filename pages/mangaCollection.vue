@@ -2,19 +2,19 @@
   <div class="app-container p-4 md:p-6 lg:p-10">
     <div class="main-content flex flex-col items-center">
       <h1 class="text-3xl font-semibold text-white mb-4">
-        All Manga Collections
+        All Manga Stories
       </h1>
       <p class="font-light mb-8 text-xl md:text-2xl text-gray-300">
-        Explore our diverse and vast manga collections.
+        Explore user generated stories and rate manga collections.
       </p>
       <div class="filters flex justify-center space-x-4 mb-8">
         <input
           v-model="search"
           type="text"
           placeholder="Search..."
-          class="search-input py-2 px-4 text-base rounded border border-gray-300"
+          class="search-input py-2 px-4 text-indigo-600 rounded border border-gray-300"
         />
-        <select v-model="genre" class="genre-select py-2 px-4 text-base rounded border border-gray-300">
+        <select v-model="genre" class="genre-select py-2 px-4 text-base rounded border bg-gray-600 border-gray-300">
           <option value="">All Genres</option>
           <option v-for="g in genres" :key="g" :value="g">{{ g }}</option>
         </select>
@@ -59,7 +59,7 @@ export default {
       search: "",
       genre: "",
       currentPage: 1,
-      itemsPerPage: 9, //change this to modify items per page
+      itemsPerPage: 9,
       genres: [
         "Shonen",
         "Shoujo",
@@ -77,23 +77,30 @@ export default {
         "Harem",
         "Ecchi",
       ],
+      loading: false,
+      error: null
     };
   },
-  async asyncData() {
-    const { data } = await axios.get(
-      "https://fastapi-9a00.onrender.com/manga/read/all"
-    );
-    return { mangas: data };
+  async created() {
+    try {
+      this.loading = true;
+      const { data } = await axios.get("https://fastapi-9a00.onrender.com/manga/read/all");
+      this.mangas = data;
+    } catch (error) {
+      this.error = "An error occurred while fetching data.";
+    } finally {
+      this.loading = false;
+    }
   },
   computed: {
     maxPage() {
       return Math.ceil(this.filteredMangas.length / this.itemsPerPage);
     },
     filteredMangas() {
-      let mangas = this.mangas.slice(); // Create a copy of the original array
+      let mangas = this.mangas.slice();
+      const searchLower = this.search.toLowerCase();
 
       if (this.search) {
-        const searchLower = this.search.toLowerCase();
         mangas = mangas.filter((manga) =>
           manga.title.toLowerCase().includes(searchLower)
         );
@@ -102,14 +109,12 @@ export default {
       if (this.genre) {
         mangas = mangas.filter(
           (manga) =>
-            manga.genre &&
-            manga.genre.toLowerCase() === this.genre.toLowerCase()
+            manga.genre && manga.genre.includes(this.genre)
         );
       } else {
-        // Filter out mangas with null genre
-        mangas = mangas.filter((manga) => manga.genre !== null);
+        mangas = mangas.filter((manga) => manga.genre);
       }
-      // Filter out mangas without enough information
+      
       mangas = mangas.filter(
         (manga) =>
           manga.title &&
@@ -118,10 +123,12 @@ export default {
           manga.manga_id
       );
 
-      return mangas.slice(
-        (this.currentPage - 1) * this.itemsPerPage,
-        this.currentPage * this.itemsPerPage
-      );
+      return mangas;
+    },
+    paginatedMangas() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      const end = this.currentPage * this.itemsPerPage;
+      return this.filteredMangas.slice(start, end);
     },
   },
   methods: {
@@ -138,6 +145,7 @@ export default {
   },
 };
 </script>
+
 
 <style>
 /* Remove the scoped attribute from style tags as Tailwind CSS doesn't require it */
