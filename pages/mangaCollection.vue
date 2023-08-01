@@ -1,9 +1,7 @@
 <template>
   <div class="app-container p-4 md:p-6 lg:p-10">
     <div class="main-content flex flex-col items-center">
-      <h1 class="text-3xl font-semibold text-white mb-4">
-        All Manga Stories
-      </h1>
+      <h1 class="text-3xl font-semibold text-white mb-4">All Manga Stories</h1>
       <p class="font-light mb-8 text-xl md:text-2xl text-gray-300">
         Explore user generated stories and rate manga collections.
       </p>
@@ -14,13 +12,16 @@
           placeholder="Search..."
           class="search-input py-2 px-4 text-indigo-600 rounded border border-gray-300"
         />
-        <select v-model="genre" class="genre-select py-2 px-4 text-base rounded border bg-gray-600 border-gray-300">
+        <select
+          v-model="genre"
+          class="genre-select py-2 px-4 text-base rounded border bg-gray-600 border-gray-300"
+        >
           <option value="">All Genres</option>
           <option v-for="g in genres" :key="g" :value="g">{{ g }}</option>
         </select>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <div v-for="manga in filteredMangas" :key="manga.manga_id">
+        <div v-for="manga in paginatedMangas" :key="manga.manga_id">
           <MangaCard :manga="manga" />
         </div>
       </div>
@@ -78,13 +79,15 @@ export default {
         "Ecchi",
       ],
       loading: false,
-      error: null
+      error: null,
     };
   },
   async created() {
     try {
       this.loading = true;
-      const { data } = await axios.get("https://fastapi-9a00.onrender.com/manga/read/all");
+      const { data } = await axios.get(
+        "https://fastapi-9a00.onrender.com/manga/read/all"
+      );
       this.mangas = data;
     } catch (error) {
       this.error = "An error occurred while fetching data.";
@@ -108,19 +111,15 @@ export default {
 
       if (this.genre) {
         mangas = mangas.filter(
-          (manga) =>
-            manga.genre && manga.genre.includes(this.genre)
+          (manga) => manga.genre && manga.genre.includes(this.genre)
         );
       } else {
         mangas = mangas.filter((manga) => manga.genre);
       }
-      
+
       mangas = mangas.filter(
         (manga) =>
-          manga.title &&
-          manga.genre &&
-          manga.main_characters &&
-          manga.manga_id
+          manga.title && manga.genre && manga.main_characters && manga.manga_id
       );
 
       return mangas;

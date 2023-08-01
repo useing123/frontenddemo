@@ -19,16 +19,8 @@
         v-if="mangaDetails.manga_id"
         :to="`/mangaFrames/${mangaDetails.manga_id}`"
       >
-        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4 mr-2">
-          Read Frames
-        </button>
-      </router-link>
-      <router-link
-        v-if="mangaDetails.manga_id"
-        :to="`/mangaText/${mangaDetails.manga_id}`"
-      >
-        <button class="bg-green-500 text-white px-4 py-2 rounded-lg mt-4">
-          Read Text
+        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4">
+          Read
         </button>
       </router-link>
     </div>
@@ -80,3 +72,7 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+/* Add your styles here */
+</style>
