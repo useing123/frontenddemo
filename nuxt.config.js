@@ -38,7 +38,7 @@ export default {
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxtjs/axios', 'cookie-universal-nuxt', '@nuxtjs/vercel-analytics'],
+  modules: ['@nuxtjs/axios', 'cookie-universal-nuxt'],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
