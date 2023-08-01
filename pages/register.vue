@@ -57,7 +57,6 @@
 </template>
 
 <script>
-import axios from '@nuxtjs/axios';
 import qs from 'qs';
 
 export default {
@@ -92,13 +91,13 @@ export default {
           if (response.data.email) {
             console.log('User registered successfully!');
 
+            // Auto-login the user after registration
+            await this.autoLogin();
+
             // Clear form fields after successful registration
             this.email = '';
             this.password = '';
             this.confirmPassword = '';
-
-            // Auto-login the user after registration
-            this.autoLogin();
           } else {
             this.error = 'Error registering user: ' + response.data.detail;
           }
@@ -114,12 +113,12 @@ export default {
     async autoLogin() {
       try {
         const data = qs.stringify({
-          grant_type: '',
+          grant_type: 'password',
           username: this.email,
           password: this.password,
-          scope: '',
-          client_id: '',
-          client_secret: '',
+          scope: '', // your application scope
+          client_id: '', // your client id
+          client_secret: '', // your client secret
         });
 
         const response = await this.$axios.post('/auth/users/tokens', data);
@@ -141,6 +140,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 .app-container {

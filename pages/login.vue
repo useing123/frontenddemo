@@ -42,6 +42,7 @@
 
 <script>
 import qs from 'qs';
+import { mapActions } from 'vuex';
 
 export default {
   data() {
@@ -52,33 +53,33 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['setAuthenticated']),
     async loginUser() {
       this.error = '';
       try {
         const data = qs.stringify({
-          grant_type: '',
+          grant_type: 'password', // assuming 'password' grant type
           username: this.email,
           password: this.password,
-          scope: '',
-          client_id: '',
-          client_secret: '',
+          scope: '', // your application scope
+          client_id: '', // your client id
+          client_secret: '', // your client secret
         });
 
         const response = await this.$axios.post('/auth/users/tokens', data);
 
         if (response.data.access_token) {
-          // Store the JWT in cookies
-          this.$cookies.set('jwt', response.data.access_token, {
-            maxAge: 60 * 60 * 24 * 7, // Set the cookie to last for 1 week (in seconds)
-          });
+          this.$cookies.set('jwt', response.data.access_token, { maxAge: 60 * 60 * 24 * 7 });
           console.log('User logged in successfully!');
-          this.$store.dispatch('setAuthenticated', true); // Dispatch the action to update the store state
+          this.setAuthenticated(true);
           this.$router.push('/account');
         } else {
           this.error = 'Error logging in: ' + response.data.detail;
         }
       } catch (error) {
         this.error = 'Error logging in: ' + error;
+      } finally {
+        this.password = '';
       }
     },
   },
