@@ -21,6 +21,7 @@
     "qs": "^6.11.2",
     "socket.io-client": "^4.7.1",
     "vue": "^2.7.10",
+    "vue-awesome": "^4.5.0",
     "vue-server-renderer": "^2.7.10",
     "vue-template-compiler": "^2.7.10",
     "vuelidate": "^0.7.7"

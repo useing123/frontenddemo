@@ -1,12 +1,13 @@
 <template>
   <header class="header bg-black text-white p-4">
     <div class="container mx-auto flex flex-wrap justify-between items-center">
-      <nuxt-link
-        :to="isAuthenticated ? '/mangaCollection' : '/'"
-        class="font-bold text-2xl md:text-4xl"
-      >
-        Mangai.me
-      </nuxt-link>
+      <div class="flex items-center">
+        <nuxt-link :to="isAuthenticated ? '/' : '/'" class="font-bold text-2xl md:text-4xl">Mangai.me</nuxt-link>
+        <!-- Show login button when not authenticated -->
+        <div v-if="!isAuthenticated" class="ml-4">
+          <nuxt-link to="/login" class="bg-red-500 text-white rounded px-2 py-1">Login</nuxt-link>
+        </div>
+      </div>
       <div class="hidden md:flex gap-6">
         <nuxt-link
           v-for="link in filteredNavigationLinks"
@@ -17,44 +18,29 @@
           {{ link.label }}
         </nuxt-link>
       </div>
-      <div class="md:hidden">
-        <button @click.stop="toggleMobileMenu" class="text-white p-2">
-          <span>&#9776;</span>
-        </button>
-        <div v-if="mobileMenuOpen" class="fixed inset-x-0 bottom-0 bg-white rounded-lg shadow-lg py-2 z-50">
-          <nuxt-link
-            v-for="link in filteredNavigationLinks"
-            :key="link.to"
-            :to="link.to"
-            class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
-            @click.stop="toggleMobileMenu"
-          >
-            {{ link.label }}
-          </nuxt-link>
-          <button
-            @click.stop="logoutUser"
-            class="w-full text-left px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
-          >
-            Logout
-          </button>
-        </div>
+      <div v-if="mobileMenuOpen" class="fixed inset-x-0 bottom-0 bg-white rounded-lg shadow-lg py-2 z-50 w-full flex flex-row justify-around md:hidden">
+        <nuxt-link
+          v-for="link in filteredNavigationLinks"
+          :key="link.to"
+          :to="link.to"
+          class="flex flex-col items-center"
+        >
+          <icon :name="link.icon" size="2x"></icon>
+          <span class="mt-2 text-black">{{ link.label }}</span>
+        </nuxt-link>
       </div>
-      </div>
+    </div>
   </header>
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   computed: {
     isAuthenticated() {
       return this.$store.state.isAuthenticated;
     },
     filteredNavigationLinks() {
-      return this.navigationLinks.filter(
-        (link) => this.isAuthenticated || !link.authRequired
-      );
+      return this.navigationLinks.filter((link) => this.isAuthenticated || !link.authRequired);
     },
   },
   data() {
@@ -66,26 +52,33 @@ export default {
         { label: "Qazaq", value: "kz" },
       ],
       navigationLinks: [
-        { label: "Read manga", to: "/mangaCollection", authRequired: true },
-        { label: "Generate Manga", to: "/mangaGeneration", authRequired: true },
-        { label: "Reviews", to: "/mangaReviews", authRequired: true },
+        { label: "Read manga", to: "/mangaCollection", authRequired: true, icon: 'book' },
+        { label: "Generate Manga", to: "/mangaGeneration", authRequired: true, icon: 'magic' },
+        { label: "Reviews", to: "/mangaReviews", authRequired: true, icon: 'comments' },
+        // { label: "Account", to: "/account", authRequired: true, icon: 'user' },
       ],
+      lastScrollPosition: 0,
     };
   },
+  mounted() {
+    window.addEventListener('resize', this.handleResize);
+    window.addEventListener('scroll', this.handleScroll);
+    this.handleResize();
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize);
+    window.removeEventListener('scroll', this.handleScroll);
+  },
   methods: {
-    toggleMobileMenu() {
-      this.mobileMenuOpen = !this.mobileMenuOpen;
+    handleResize() {
+      this.mobileMenuOpen = window.innerWidth <= 768;
     },
-    changeLanguage(event) {
-      const selectedLanguage = event.target.value;
-      // Add logic here to change the language in the app
-    },
-    logoutUser() {
-      this.$cookies.remove("jwt");
-      axios.defaults.headers.common["Authorization"] = null;
-      this.$store.dispatch("setAuthenticated", false);
-      this.$router.push("/");
-      this.toggleMobileMenu();
+    handleScroll() {
+      // Not checking scroll for bottom behavior anymore
+      const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+      const windowHeight = window.innerHeight;
+      this.mobileMenuOpen = currentScrollPosition < this.lastScrollPosition || currentScrollPosition === 0;
+      this.lastScrollPosition = currentScrollPosition;
     },
   },
 };
