@@ -129,7 +129,7 @@ export default {
             maxAge: 60 * 60 * 24 * 1, // Set the cookie to last for 1 day (in seconds)
           });
           console.log('User logged in successfully!');
-          this.$router.push('/account'); // Redirect to the authenticated route
+          this.$router.push('/mangaGeneration'); // Redirect to the authenticated route
         } else {
           this.error = 'Error logging in: ' + response.data.detail;
         }
