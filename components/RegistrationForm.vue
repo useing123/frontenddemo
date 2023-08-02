@@ -1,7 +1,7 @@
 <template>
   <div class="registration-form text-white p-6 rounded-lg">
     <h2 class="text-3xl font-semibold mb-6">
-      Ready to watch? Enter your email to create or restart your membership.
+      Are you ready to create your own manga? Register now by entering your email to get started!
     </h2>
     <form class="flex flex-col">
       <input
