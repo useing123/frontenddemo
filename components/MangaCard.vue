@@ -1,10 +1,10 @@
 <template>
   <div class="manga-card">
-    <img class="cover" :src="manga.cover_image" :alt="manga.title">
+    <!-- <img class="cover" :src="manga.cover_image" :alt="manga.title"> -->
     <h1 class="title">{{ manga.title }}</h1>
     <h2 class="genre">{{ manga.genre }}</h2>
     <p class="characters">{{ trimmedCharacters }}</p>
-    <p class="rating">Rating: {{ manga.rating }}/10</p>
+    <p class="rating">Rating: {{ manga.rating }}10/10</p>
     <nuxt-link
       :to="`/manga/${manga.manga_id}`"
       class="read-more bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition-colors duration-300 ease-in-out"
