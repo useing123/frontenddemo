@@ -77,7 +77,8 @@ export default {
       navigationLinks: [
         { label: "Read manga", to: "/mangaCollection", authRequired: true },
         { label: "Generate Manga", to: "/mangaGeneration", authRequired: true },
-        { label: "Find Manga", to: "/mangaSearch", authRequired: true },
+        { label: "Reviews", to: "/mangaReviews", authRequired: true },
+        // { label: "Find Manga", to: "/mangaSearch", authRequired: true },
       ],
     };
   },

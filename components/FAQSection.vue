@@ -27,7 +27,7 @@ export default {
       faqItems: [
         {
           question: 'What is Mangai.me?',
-          answer: 'Mangai.me is an online platform that offers a vast collection of manga, which are Japanese comic books or graphic novels. Our site provides a wide range of genres, including action, romance, fantasy, and more, catering to manga enthusiasts worldwide.',
+          answer: 'Mangai.me is a website for generating manga, which are Japanese comic books or graphic novels. Registration is required to use the manga generation feature, but not to read existing manga content on the website. You can freely browse and read the available manga without creating an account. However, if you want to generate your own manga, you will need to register for an account on the website. Creating an account allows you to access the manga generation tools and create your personalized manga stories.',
           showAnswer: false,
         },
         {

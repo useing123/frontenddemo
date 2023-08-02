@@ -10,7 +10,7 @@
       <p class="font-light my-8 text-xl md:text-2xl text-gray-300">
         Unleash your imagination in a universe of unseen, original artworks!
         <div class="cta-container">
-          <button @click="goToMangaGeneration" class="generate-btn">Generate Manga</button>
+          <button @click="goToMangaGeneration" class="generate-btn bg-red-500">Generate Manga</button>
         </div>
       </p>
       <hr class="my-8 border-gray-200">

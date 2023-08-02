@@ -4,6 +4,7 @@
       <p>Mangai.me by Ossein</p>
       <p>&copy; 2023</p>
       <p>All Rights Reserved</p>
+      <p>useing322@gmail.com</p>
       <p>Kaspi.kz donations +7 775 832 63 97</p>
       <div class="footer-links">
         <a href="/privacy-policy">Privacy Policy</a>

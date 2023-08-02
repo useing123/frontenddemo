@@ -1,17 +1,27 @@
 <template>
-  <div id="app">
-    <MangaFrames v-if="frames.length && Object.keys(dialogs).length"
-                 :frames="frames" :dialogs="dialogs" />
+  <div id="app" class="p-6 bg-red flex flex-col items-start rounded-lg shadow-md">
+    <button @click="goBack" class="bg-white hover:bg-gray-100 text-black font-bold py-2 px-4 mb-4 rounded">
+      ← Go back
+    </button>
+    <div v-if="loading" class="mt-4">Loading...</div>
+    <div v-else-if="error" class="mt-4 text-red-500">{{ error }}</div>
+    <div v-else>
+      <div v-if="frames.length === 0" class="mt-4 text-center text-white">Your manga is still being drawn, please wait...</div>
+      <MangaFrames :frames="frames" :dialogs="dialogs" />
+      <ScrollTopButton />
+    </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
 import MangaFrames from '~/components/MangaFrames.vue';
+import ScrollTopButton from '~/components/ScrollTopButton.vue';
 
 export default {
   components: {
-    MangaFrames
+    MangaFrames,
+    ScrollTopButton,
   },
   data() {
     return {
@@ -20,6 +30,11 @@ export default {
       loading: true,
       error: null,
     };
+  },
+  methods: {
+    goBack() {
+      this.$router.go(-1);
+    },
   },
   async created() {
     try {

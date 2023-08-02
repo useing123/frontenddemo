@@ -72,7 +72,7 @@ export default {
           this.$cookies.set('jwt', response.data.access_token, { maxAge: 60 * 60 * 24 * 7 });
           console.log('User logged in successfully!');
           this.setAuthenticated(true);
-          this.$router.push('/account');
+          this.$router.push('/mangaCollection');
         } else {
           this.error = 'Error logging in: ' + response.data.detail;
         }

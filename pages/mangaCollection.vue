@@ -19,6 +19,15 @@
           <option value="">All Genres</option>
           <option v-for="g in genres" :key="g" :value="g">{{ g }}</option>
         </select>
+
+        <div class="generate-manga-button">
+        <!-- Use router-link to navigate to the mangaGeneration.vue component -->
+        <router-link to="/mangaGeneration">
+          <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 font-medium rounded">
+            Generate Manga
+          </button>
+        </router-link>
+      </div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <div v-for="manga in paginatedMangas" :key="manga.manga_id">
