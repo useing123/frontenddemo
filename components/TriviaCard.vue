@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-current p-4 rounded-lg shadow-md">
+  <div class="Trivia p-4 rounded-lg shadow-md">
     <h2 class="text-xl font-bold mb-2">Anime Trivia</h2>
     <p>{{ trivia }}</p>
     <button
@@ -73,9 +73,12 @@ export default {
 };
 </script>
   
-  <style scoped>
+<style scoped>
 div {
   width: 100%;
+}
+.Trivia{
+    background-color: #141414;
 }
 </style>
   
