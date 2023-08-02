@@ -7,7 +7,7 @@
       >
         Mangai.me
       </router-link>
-      <div class="flex gap-6">
+      <div class="hidden md:flex gap-6">
         <router-link
           v-for="link in filteredNavigationLinks"
           :key="link.to"
@@ -17,7 +17,29 @@
           {{ link.label }}
         </router-link>
       </div>
-      <div class="flex items-center gap-6 mt-6 md:mt-0">
+      <div class="md:hidden">
+        <button @click="toggleMobileMenu" class="text-white p-2">
+          <span>&#9776;</span>
+        </button>
+        <div v-if="mobileMenuOpen" class="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
+          <router-link
+            v-for="link in filteredNavigationLinks"
+            :key="link.to"
+            :to="link.to"
+            class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
+            @click.native="toggleMobileMenu"
+          >
+            {{ link.label }}
+          </router-link>
+          <button
+            @click="logoutUser"
+            class="w-full text-left px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+      <div class="hidden md:flex items-center gap-6 mt-6 md:mt-0">
         <div class="language-select">
           <select
             class="text-white bg-transparent border border-white rounded p-1"
@@ -69,6 +91,7 @@ export default {
   },
   data() {
     return {
+      mobileMenuOpen: false,
       supportedLanguages: [
         { label: "English", value: "en" },
         { label: "Русский", value: "ru" },
@@ -78,28 +101,34 @@ export default {
         { label: "Read manga", to: "/mangaCollection", authRequired: true },
         { label: "Generate Manga", to: "/mangaGeneration", authRequired: true },
         { label: "Reviews", to: "/mangaReviews", authRequired: true },
-        // { label: "Find Manga", to: "/mangaSearch", authRequired: true },
       ],
     };
   },
   methods: {
+    toggleMobileMenu() {
+      this.mobileMenuOpen = !this.mobileMenuOpen;
+    },
     changeLanguage(event) {
       const selectedLanguage = event.target.value;
       // Add logic here to change the language in the app
     },
     logoutUser() {
-      // Clear the JWT from cookies
       this.$cookies.remove("jwt");
-      // Remove the JWT from axios headers
       axios.defaults.headers.common["Authorization"] = null;
-      // Update the authentication state in the store
       this.$store.dispatch("setAuthenticated", false);
-      // Redirect the user to the home page
       this.$router.push("/");
+      this.toggleMobileMenu();
     },
   },
 };
 </script>
+
 <style scoped>
-/* Your styles here */
+@media (max-width: 768px) {
+  /* Hide certain elements on smaller screens */
+  .language-select,
+  .flex.items-center.gap-6.mt-6.md\:mt-0 .bg-red-500 {
+    display: none;
+  }
+}
 </style>

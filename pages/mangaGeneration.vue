@@ -2,10 +2,14 @@
   <div class="p-6 bg-red flex flex-col items-start rounded-lg shadow-md">
     <h1 class="text-2xl font-bold mb-4 text-white">Manga Generation</h1>
     <GenreSelection v-model="selectedGenres" class="w-full" />
-    <h2 class="text-2xl font-bold mb-4 text-white">You must log in to generate manga</h2>
+    <h2 class="text-2xl font-bold mb-4 text-white">
+      You must log in to generate manga
+    </h2>
     <form class="flex flex-col mt-4 w-full" @submit.prevent="submitForm">
       <div class="form-group">
-        <label class="text-lg font-semibold mb-2" for="prompt">Enter Prompt:</label>
+        <label class="text-lg font-semibold mb-2" for="prompt"
+          >Enter Prompt:</label
+        >
         <textarea
           id="prompt"
           v-model="prompt"
@@ -23,11 +27,10 @@
         class="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4 w-full"
       >
         <span v-if="loading">
-          <i class="fa fa-circle-o-notch fa-spin"></i> Generating Manga... {{ loadingPercentage }}%
+          <i class="fa fa-circle-o-notch fa-spin"></i> Generating Manga...
+          {{ loadingPercentage }}%
         </span>
-        <span v-else>
-          Generate Manga
-        </span>
+        <span v-else> Generate Manga </span>
       </button>
 
       <button
@@ -38,6 +41,22 @@
       >
         Read manga
       </button>
+
+      <button
+        v-if="attempts > maxAttempts"
+        type="button"
+        @click="pollMangaDetails(mangaDetails.manga_id, jwt)"
+        class="bg-yellow-500 text-white px-4 py-2 rounded-lg mt-2 w-full"
+      >
+        Check Manga Status
+      </button>
+
+      <div v-if="loading" class="mt-4">
+        <h3 class="text-lg font-semibold mb-2 text-white">
+          While you wait, did you know?
+        </h3>
+        <TriviaCard class="w-full" />
+      </div>
 
       <div v-if="error" class="text-red-500 mt-4">
         An error occurred: {{ error }}
@@ -64,15 +83,16 @@ textarea {
   color: #e50914;
 }
 </style>
-
 <script>
 import axios from "axios";
 import GenreSelection from "~/components/GenreSelection.vue";
 import Cookies from "js-cookie";
+import TriviaCard from "~/components/TriviaCard.vue";
 
 export default {
   components: {
     GenreSelection,
+    TriviaCard,
   },
   data() {
     return {
@@ -91,7 +111,9 @@ export default {
       this.loading = true;
       this.loadingPercentage = 0;
       const mangaCreateRequest = {
-        genre: this.selectedGenres.length ? this.selectedGenres.join(",") : "random",
+        genre: this.selectedGenres.length
+          ? this.selectedGenres.join(",")
+          : "random",
         prompt: this.prompt,
         chapters_count: 1,
       };
@@ -123,34 +145,67 @@ export default {
     },
 
     async pollMangaDetails(mangaId, jwt) {
+      let receivedProps = 0;
+      let attempts = 0;
+      const maxAttempts = 45; // Stop polling after 30 attempts
+
       const intervalId = setInterval(async () => {
-        const response = await axios.get(
-          `https://fastapi-9a00.onrender.com/manga/read/${mangaId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${jwt}`,
-            },
+        attempts++;
+
+        if (attempts > maxAttempts) {
+          clearInterval(intervalId);
+          this.loading = false;
+          this.error =
+            "Manga generation took too long. Please try again later.";
+          return;
+        }
+
+        try {
+          const response = await axios.get(
+            `https://fastapi-9a00.onrender.com/manga/read/${mangaId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${jwt}`,
+              },
+            }
+          );
+
+          this.mangaDetails = response.data;
+
+          let totalProps = Object.keys(this.mangaDetails).length;
+          imgur_links.length = 24;
+          if (
+            this.mangaDetails.imgur_links &&
+            this.mangaDetails.imgur_links.length > 0
+          ) {
+            totalProps += this.mangaDetails.imgur_links.length - 1; // Subtract one because imgur_links itself is one property.
+            receivedProps =
+              Object.values(this.mangaDetails).filter(Boolean).length +
+              this.mangaDetails.imgur_links.length -
+              1;
+          } else {
+            receivedProps = Object.values(this.mangaDetails).filter(
+              Boolean
+            ).length;
           }
-        );
 
-        this.mangaDetails = response.data;
+          this.loadingPercentage = Math.floor(
+            (receivedProps / totalProps) * 100
+          );
 
-        if (response.data.status === "completed") {
+          if (response.data.status === "completed") {
+            this.loading = false;
+            clearInterval(intervalId);
+          }
+        } catch (error) {
+          console.error(error);
           this.loading = false;
           clearInterval(intervalId);
+          this.error = error.response.data.detail || "An error occurred.";
         }
       }, 10000);
-    },
-
-    readManga() {
-      if (!this.mangaDetails || !this.mangaDetails.manga_id) {
-        alert("Please generate a manga first.");
-        return;
-      }
-
-      const mangaLink = `/manga/${this.mangaDetails.manga_id}`;
-      this.$router.push(mangaLink);
     },
   },
 };
 </script>
+
