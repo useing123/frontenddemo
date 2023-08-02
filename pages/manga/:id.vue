@@ -5,21 +5,19 @@
     <div v-if="loading" class="mt-4">Loading...</div>
 
     <div v-if="mangaDetails" class="mt-4">
-      <h2 class="font-bold text-lg mt-2">{{ mangaDetails.title }}</h2>
-      <p v-if="mangaDetails.genre">
-        <strong>Genre:</strong> {{ mangaDetails.genre }}
-      </p>
-      <p v-if="mangaDetails.main_characters">
-        <strong>Main Characters:</strong> {{ mangaDetails.main_characters }}
-      </p>
-      <p v-if="mangaDetails.manga_chapters_story">
-        <strong>Story:</strong> {{ mangaDetails.manga_chapters_story }}
-      </p>
+      <h1 class="font-bold text-lg mt-2">{{ mangaDetails.title }}</h1>
+      <!-- <p><strong>Author:</strong> {{ mangaDetails.author }}</p> -->
+      <!-- <p><strong>Publication Date:</strong> {{ mangaDetails.publication_date }}</p> -->
+      <!-- <p><strong>Status:</strong> {{ mangaDetails.status }}</p> -->
+      <!-- <p><strong>Rating:</strong> {{ mangaDetails.rating }}</p> -->
+      <p v-if="mangaDetails.genre"><strong>Genre:</strong> {{ mangaDetails.genre }}</p>
+      <p v-if="mangaDetails.main_characters"><strong>Main Characters:</strong> {{ mangaDetails.main_characters }}</p>
+      <p v-if="mangaDetails.manga_chapters_story"><strong>Story:</strong> {{ mangaDetails.manga_chapters_story }}</p>
       <router-link
         v-if="mangaDetails.manga_id"
         :to="`/mangaFrames/${mangaDetails.manga_id}`"
       >
-        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4">
+        <button class="bg-red-500 text-white px-4 py-2 rounded-lg mt-4">
           Read
         </button>
       </router-link>
@@ -41,9 +39,16 @@ export default {
       error: null,
     };
   },
-  async created() {
-    // Fetch manga details on component creation
+  created() {
     this.fetchMangaDetails();
+  },
+  watch: {
+    '$route.params.id': {
+      immediate: true,
+      handler() {
+        this.fetchMangaDetails();
+      },
+    },
   },
   methods: {
     async fetchMangaDetails() {
@@ -66,7 +71,7 @@ export default {
       } catch (error) {
         console.error(error);
         this.loading = false;
-        this.error = error.response?.data?.detail || "An error occurred.";
+        this.error = 'Oops, something went wrong while fetching the manga details. Please try again.';
       }
     },
   },

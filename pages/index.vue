@@ -6,14 +6,16 @@
           Mangai.me - Dive into Personalized Manga Adventures!
         </h1>
         <img src="https://i.imgur.com/P6Ac62Y.png" alt="Mangai.me Logo" class="logo-img">
-        <!-- <img src="images/background.png" alt=""> -->
-        <!-- <img src="https://i.imgur.com/I6VTCD5.png" alt="Mangai.me Team" class="team-img"> -->
       </div>
       <p class="font-light my-8 text-xl md:text-2xl text-gray-300">
         Unleash your imagination in a universe of unseen, original artworks!
+        <div class="cta-container">
+          <button @click="goToMangaGeneration" class="generate-btn">Generate Manga</button>
+        </div>
       </p>
       <hr class="my-8 border-gray-200">
       <RegistrationForm />
+      <hr class="my-8 border-gray-200">
       <hr class="my-8 border-gray-200">
       <div class="team-container">
         <CookieConsent />
@@ -28,11 +30,11 @@
     </div>
   </div>
 </template>
+
 <script>
 import axios from 'axios';
 import RegistrationForm from "@/components/RegistrationForm.vue";
 import FAQSection from "@/components/FAQSection.vue";
-import CookieConsent from "@/components/CookieConsent.vue";
 
 export default {
   data() {
@@ -43,7 +45,11 @@ export default {
   components: {
     RegistrationForm,
     FAQSection,
-    CookieConsent,
+  },
+  methods: {
+    goToMangaGeneration() {
+      this.$router.push('/mangaGeneration');
+    }
   },
   created() {
     axios.get('https://fastapi-9a00.onrender.com/')
@@ -87,7 +93,7 @@ hr {
 }
 .app-container {
   padding: 1rem;
-  padding-top: 80px; /* Add top padding to accommodate for the fixed header */
+  padding-top: 80px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -105,5 +111,20 @@ hr {
 
 hr {
   border-color: #2c2c2c;
+}
+
+.generate-btn {
+  background-color: #ff4500;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.generate-btn:hover {
+  background-color: #ff6347;
 }
 </style>
