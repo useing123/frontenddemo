@@ -1,77 +1,45 @@
 <template>
   <header class="header bg-black text-white p-4">
     <div class="container mx-auto flex flex-wrap justify-between items-center">
-      <router-link
+      <nuxt-link
         :to="isAuthenticated ? '/mangaCollection' : '/'"
         class="font-bold text-2xl md:text-4xl"
       >
         Mangai.me
-      </router-link>
+      </nuxt-link>
       <div class="hidden md:flex gap-6">
-        <router-link
+        <nuxt-link
           v-for="link in filteredNavigationLinks"
           :key="link.to"
           :to="link.to"
           class="transition-colors duration-300 ease-in-out text-base md:text-lg hover:text-yellow-500"
         >
           {{ link.label }}
-        </router-link>
+        </nuxt-link>
       </div>
       <div class="md:hidden">
-        <button @click="toggleMobileMenu" class="text-white p-2">
+        <button @click.stop="toggleMobileMenu" class="text-white p-2">
           <span>&#9776;</span>
         </button>
-        <div v-if="mobileMenuOpen" class="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
-          <router-link
+        <div v-if="mobileMenuOpen" class="fixed inset-x-0 bottom-0 bg-white rounded-lg shadow-lg py-2 z-50">
+          <nuxt-link
             v-for="link in filteredNavigationLinks"
             :key="link.to"
             :to="link.to"
             class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
-            @click.native="toggleMobileMenu"
+            @click.stop="toggleMobileMenu"
           >
             {{ link.label }}
-          </router-link>
+          </nuxt-link>
           <button
-            @click="logoutUser"
+            @click.stop="logoutUser"
             class="w-full text-left px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
           >
             Logout
           </button>
         </div>
       </div>
-      <div class="hidden md:flex items-center gap-6 mt-6 md:mt-0">
-        <div class="language-select">
-          <select
-            class="text-white bg-transparent border border-white rounded p-1"
-            @change="changeLanguage"
-          >
-            <option
-              v-for="lang in supportedLanguages"
-              :key="lang.value"
-              :value="lang.value"
-            >
-              {{ lang.label }}
-            </option>
-          </select>
-        </div>
-        <template v-if="!isAuthenticated">
-          <router-link
-            to="/login"
-            class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition-colors duration-300 ease-in-out"
-          >
-            Sign In
-          </router-link>
-        </template>
-        <template v-else>
-          <button
-            @click="logoutUser"
-            class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition-colors duration-300 ease-in-out"
-          >
-            Logout
-          </button>
-        </template>
       </div>
-    </div>
   </header>
 </template>
 
@@ -125,9 +93,8 @@ export default {
 
 <style scoped>
 @media (max-width: 768px) {
-  /* Hide certain elements on smaller screens */
   .language-select,
-  .flex.items-center.gap-6.mt-6.md\:mt-0 .bg-red-500 {
+  .mt-6 {
     display: none;
   }
 }
