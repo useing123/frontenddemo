@@ -15,7 +15,9 @@
         />
         <p v-if="!validEmail && email" class="text-red-500">Invalid email</p>
 
-        <label class="text-lg font-semibold mb-2 mt-4" for="password">Password:</label>
+        <label class="text-lg font-semibold mb-2 mt-4" for="password"
+          >Password:</label
+        >
         <input
           id="password"
           v-model="password"
@@ -25,7 +27,9 @@
           placeholder="Enter password"
         />
 
-        <label class="text-lg font-semibold mb-2 mt-4" for="confirm-password">Confirm Password:</label>
+        <label class="text-lg font-semibold mb-2 mt-4" for="confirm-password"
+          >Confirm Password:</label
+        >
         <input
           id="confirm-password"
           v-model="confirmPassword"
@@ -34,13 +38,17 @@
           required
           placeholder="Confirm password"
         />
-        <p v-if="password !== confirmPassword" class="text-red-500">Passwords do not match</p>
+        <p v-if="password !== confirmPassword" class="text-red-500">
+          Passwords do not match
+        </p>
 
         <button
-          :disabled="loading || !validEmail || password !== confirmPassword || !password"
+          :disabled="
+            loading || !validEmail || password !== confirmPassword || !password
+          "
           class="submit-button mt-8"
         >
-          {{ loading ? 'Registering...' : 'Register' }}
+          {{ loading ? "Registering..." : "Register" }}
         </button>
 
         <button
@@ -50,38 +58,41 @@
           Already have an account? Login
         </button>
 
-        <p v-if="error" class="text-red-500 mt-4">Registration Error: {{ error }}</p>
+        <p v-if="error" class="text-red-500 mt-4">
+          Registration Error: {{ error }}
+        </p>
       </form>
     </div>
   </div>
 </template>
 
 <script>
-import qs from 'qs';
+import qs from "qs";
 
 export default {
   data() {
     return {
-      email: '',
-      password: '',
-      confirmPassword: '',
-      error: '',
+      email: "",
+      password: "",
+      confirmPassword: "",
+      error: "",
       loading: false,
     };
   },
   computed: {
     validEmail() {
-      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      const re =
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(this.email.toLowerCase());
     },
   },
   methods: {
     async registerUser() {
       if (this.validEmail && this.password === this.confirmPassword) {
-        this.error = '';
+        this.error = "";
         this.loading = true;
         try {
-          const response = await this.$axios.post('/auth/users', {
+          const response = await this.$axios.post("/auth/users", {
             email: this.email,
             password: this.password,
           });
@@ -89,52 +100,56 @@ export default {
           this.loading = false;
 
           if (response.data.email) {
-            console.log('User registered successfully!');
+            console.log("User registered successfully!");
 
             // Auto-login the user after registration
             await this.autoLogin();
 
             // Clear form fields after successful registration
-            this.email = '';
-            this.password = '';
-            this.confirmPassword = '';
+            this.email = "";
+            this.password = "";
+            this.confirmPassword = "";
           } else {
-            this.error = 'Error registering user: ' + response.data.detail;
+            this.error = "Error registering user: " + response.data.detail;
           }
         } catch (error) {
           this.loading = false;
-          this.error = 'Error registering user: ' + error;
+          this.error = "Error registering user: " + error;
         }
       }
     },
     validateEmail() {
-      this.error = '';
+      this.error = "";
     },
     async autoLogin() {
       try {
         const data = qs.stringify({
-          grant_type: 'password',
+          grant_type: "password",
           username: this.email,
           password: this.password,
-          scope: '', // your application scope
-          client_id: '', // your client id
-          client_secret: '', // your client secret
+          scope: "", // your application scope
+          client_id: "", // your client id
+          client_secret: "", // your client secret
         });
 
-        const response = await this.$axios.post('/auth/users/tokens', data);
+        const response = await this.$axios.post("/auth/users/tokens", data);
 
         if (response.data.access_token) {
           // Store the JWT in cookies
-          this.$cookies.set('jwt', response.data.access_token, {
+          this.$cookies.set("jwt", response.data.access_token, {
             maxAge: 60 * 60 * 24 * 1, // Set the cookie to last for 1 day (in seconds)
           });
-          console.log('User logged in successfully!');
-          this.$router.push('/mangaGeneration'); // Redirect to the authenticated route
+          console.log("User logged in successfully!");
+
+          // Update authentication state in Vuex store
+          this.$store.dispatch("setAuthenticated", true);
+
+          this.$router.push("/mangaGeneration"); // Redirect to the authenticated route
         } else {
-          this.error = 'Error logging in: ' + response.data.detail;
+          this.error = "Error logging in: " + response.data.detail;
         }
       } catch (error) {
-        this.error = 'Error logging in: ' + error;
+        this.error = "Error logging in: " + error;
       }
     },
   },
@@ -145,18 +160,18 @@ export default {
 <style scoped>
 .app-container {
   padding: 1rem;
-  min-height: 100vh; 
-  width: 100%; 
+  min-height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background: #141414;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 
 .main-content {
-  width: 100%; 
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;

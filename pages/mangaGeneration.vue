@@ -63,7 +63,9 @@ textarea {
 .text-red-500 {
   color: #e50914;
 }
-</style><script>
+</style>
+
+<script>
 import axios from "axios";
 import GenreSelection from "~/components/GenreSelection.vue";
 import Cookies from "js-cookie";
@@ -121,8 +123,6 @@ export default {
     },
 
     async pollMangaDetails(mangaId, jwt) {
-      const totalProps = 15; // The total number of properties in your response
-
       const intervalId = setInterval(async () => {
         const response = await axios.get(
           `https://fastapi-9a00.onrender.com/manga/read/${mangaId}`,
@@ -134,15 +134,6 @@ export default {
         );
 
         this.mangaDetails = response.data;
-        let receivedProps = 0;
-
-        for (const prop in response.data) {
-          if (response.data[prop] && response.data[prop] !== null) {
-            receivedProps++;
-          }
-        }
-
-        this.loadingPercentage = Math.floor((receivedProps / totalProps) * 100);
 
         if (response.data.status === "completed") {
           this.loading = false;
