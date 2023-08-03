@@ -7,6 +7,15 @@
 
     <div v-if="loading" class="mt-4">Loading... {{ loadingPercentage.toFixed(0) }}% completed</div>
 
+    <div v-if="loading">
+      <p>While this manga is being generated, you may enjoy other mangas in our collection.</p>
+      <router-link to="/mangaCollection">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Go to Manga Collection
+        </button>
+      </router-link>
+    </div>
+
     <div v-if="mangaDetails" class="mt-4">
       <h1 class="font-bold text-lg mt-2">{{ mangaDetails.title }}</h1>
       <p v-if="mangaDetails.genre"><strong>Genre:</strong> {{ mangaDetails.genre }}</p>

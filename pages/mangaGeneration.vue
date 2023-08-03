@@ -27,39 +27,21 @@
         class="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4 w-full"
       >
         <span v-if="loading">
-          <i class="fa fa-circle-o-notch fa-spin"></i> Generating Manga...
-          {{ loadingPercentage }}%
+          <i class="fa fa-circle-o-notch fa-spin"></i> Processing...
         </span>
         <span v-else> Generate Manga </span>
       </button>
 
-      <button
-        v-if="mangaDetails && mangaDetails.status === 'completed'"
-        type="button"
-        @click="readManga"
-        class="bg-green-500 text-white px-4 py-2 rounded-lg mt-2 w-full"
-      >
-        Read manga
-      </button>
+      <p v-if="mangaId" class="text-white mt-4 text-blue-500">
+        Your manga is being generated. You can check the status 
+        <a class="text-red-500" :href="`/manga/${mangaId}`" target="_blank">here</a>.
+      </p>
 
-      <button
-        v-if="attempts > maxAttempts"
-        type="button"
-        @click="pollMangaDetails(mangaDetails.manga_id, jwt)"
-        class="bg-yellow-500 text-white px-4 py-2 rounded-lg mt-2 w-full"
-      >
-        Check Manga Status
-      </button>
-
-      <div v-if="loading" class="mt-4">
-        <h3 class="text-lg font-semibold mb-2 text-white">
-          While you wait, did you know?
-        </h3>
-        <TriviaCard class="w-full" />
+      <div v-if="error" class="text-red-500 mt-4" v-html="error">
       </div>
 
-      <div v-if="error" class="text-red-500 mt-4">
-        An error occurred: {{ error }}
+      <div v-if="loading" class="progress-bar-container">
+        <div class="progress-bar" :style="{ width: `${progress}%` }"></div>
       </div>
     </form>
   </div>
@@ -83,33 +65,37 @@ textarea {
   color: #e50914;
 }
 </style>
+
 <script>
 import axios from "axios";
 import GenreSelection from "~/components/GenreSelection.vue";
 import Cookies from "js-cookie";
-import TriviaCard from "~/components/TriviaCard.vue";
 
 export default {
   components: {
     GenreSelection,
-    TriviaCard,
   },
   data() {
     return {
       selectedGenres: [],
       prompt: "",
-      mangaDetails: null,
+      mangaId: null,
       loading: false,
-      loadingPercentage: 0,
       error: null,
+      progress: 0,
+      progressInterval: null,
     };
   },
   methods: {
     async submitForm() {
-      if (!this.prompt) return;
+      if (!this.prompt || this.loading) return;
 
       this.loading = true;
-      this.loadingPercentage = 0;
+      this.progress = 0;
+      this.progressInterval = setInterval(() => {
+        if (this.progress < 95) this.progress += Math.random() * 5;
+      }, 1000);
+
       const mangaCreateRequest = {
         genre: this.selectedGenres.length
           ? this.selectedGenres.join(",")
@@ -121,12 +107,18 @@ export default {
       try {
         const jwt = Cookies.get("jwt");
         const createResponse = await this.createManga(mangaCreateRequest, jwt);
-        this.pollMangaDetails(createResponse.data.manga_id, jwt);
+        this.mangaId = createResponse.data.manga_id;
 
-        this.error = null;
+        this.loading = false;
+        this.progress = 100;
+        clearInterval(this.progressInterval);
+        this.progressInterval = null;
       } catch (error) {
         console.error(error);
         this.loading = false;
+        this.progress = 0;
+        clearInterval(this.progressInterval);
+        this.progressInterval = null;
         this.error = error.response.data.detail || "An error occurred.";
       }
     },
@@ -143,69 +135,6 @@ export default {
       );
       return response;
     },
-
-    async pollMangaDetails(mangaId, jwt) {
-      let receivedProps = 0;
-      let attempts = 0;
-      const maxAttempts = 45; // Stop polling after 30 attempts
-
-      const intervalId = setInterval(async () => {
-        attempts++;
-
-        if (attempts > maxAttempts) {
-          clearInterval(intervalId);
-          this.loading = false;
-          this.error =
-            "Manga generation took too long. Please try again later.";
-          return;
-        }
-
-        try {
-          const response = await axios.get(
-            `https://fastapi-9a00.onrender.com/manga/read/${mangaId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${jwt}`,
-              },
-            }
-          );
-
-          this.mangaDetails = response.data;
-
-          let totalProps = Object.keys(this.mangaDetails).length;
-          imgur_links.length = 24;
-          if (
-            this.mangaDetails.imgur_links &&
-            this.mangaDetails.imgur_links.length > 0
-          ) {
-            totalProps += this.mangaDetails.imgur_links.length - 1; // Subtract one because imgur_links itself is one property.
-            receivedProps =
-              Object.values(this.mangaDetails).filter(Boolean).length +
-              this.mangaDetails.imgur_links.length -
-              1;
-          } else {
-            receivedProps = Object.values(this.mangaDetails).filter(
-              Boolean
-            ).length;
-          }
-
-          this.loadingPercentage = Math.floor(
-            (receivedProps / totalProps) * 100
-          );
-
-          if (response.data.status === "completed") {
-            this.loading = false;
-            clearInterval(intervalId);
-          }
-        } catch (error) {
-          console.error(error);
-          this.loading = false;
-          clearInterval(intervalId);
-          this.error = error.response.data.detail || "An error occurred.";
-        }
-      }, 10000);
-    },
   },
 };
 </script>
-
