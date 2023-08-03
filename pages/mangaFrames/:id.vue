@@ -11,10 +11,7 @@
     </button>
     <div v-if="loading" class="mt-4">
       Loading...
-    </div>
-    <div v-else-if="error" class="mt-4 text-red-500">{{ error }}</div>
-    <div v-else>
-      <div v-if="frames.length === 0" class="mt-4 text-center text-white">
+      <div v-if="loading" class="mt-4 text-center text-white">
         Your manga is still being drawn, please wait...
       </div>
       <div class="mt-4 text-center text-white">
@@ -26,6 +23,9 @@
       >
         Read
       </button>
+    </div>
+    <div v-else-if="error" class="mt-4 text-red-500">{{ error }}</div>
+    <div v-else>
       <MangaFrames :frames="frames" :dialogs="dialogs" />
       <ScrollTopButton />
     </div>
