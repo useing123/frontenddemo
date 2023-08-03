@@ -18,7 +18,7 @@
           v-model="search"
           type="text"
           placeholder="Search..."
-          class="search-input py-2 px-2 sm:px-4 text-indigo-600 rounded border border-gray-300"
+          class="search-input py-2 px-2 sm:px-4 text-black rounded border border-gray-300"
         />
         <select
           v-model="genre"
@@ -47,15 +47,15 @@
       </div>
       <div class="pagination-container">
         <button
-          class="page-button bg-red-600 text-white py-2 px-2 sm:px-4 font-medium rounded disabled:bg-gray-400 disabled:cursor-not-allowed"
+          class="page-button bg-red-600 text-white py-2 px-4 sm:px-6 font-medium rounded disabled:bg-gray-400 disabled:cursor-not-allowed"
           @click="prevPage"
           :disabled="currentPage == 1"
         >
           Prev
         </button>
-        <span class="text-base">Page: {{ currentPage }}</span>
+        <span class="text-base p-6">Page: {{ currentPage }}</span>
         <button
-          class="page-button bg-red-600 text-white py-2 px-2 sm:px-4 font-medium rounded disabled:bg-gray-400 disabled:cursor-not-allowed"
+          class="page-button bg-red-600 text-white py-2 px-4 sm:px-6 font-medium rounded disabled:bg-gray-400 disabled:cursor-not-allowed"
           @click="nextPage"
           :disabled="currentPage == maxPage"
         >

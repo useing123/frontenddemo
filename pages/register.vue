@@ -46,7 +46,7 @@
           :disabled="
             loading || !validEmail || password !== confirmPassword || !password
           "
-          class="submit-button mt-8"
+          class="submit-button px-4 py-2 rounded-lg mt-4"
         >
           {{ loading ? "Registering..." : "Register" }}
         </button>
@@ -201,9 +201,6 @@ export default {
 .submit-button {
   color: #fff;
   background-color: #e50914;
-  padding: 1rem;
-  border: none;
-  border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.5s ease;
 }

@@ -113,6 +113,9 @@ export default {
         this.progress = 100;
         clearInterval(this.progressInterval);
         this.progressInterval = null;
+        
+        // Directly navigate to the manga details page
+        this.$router.push(`/manga/${this.mangaId}`);
       } catch (error) {
         console.error(error);
         this.loading = false;

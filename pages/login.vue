@@ -23,7 +23,7 @@
           placeholder="Password"
         />
 
-        <button :disabled="!email || !password" class="submit-button mt-8">
+        <button :disabled="!email || !password" class="submit-button rounded-lg mt-4 py-2 px-4">
           Login
         </button>
 
@@ -130,9 +130,7 @@ export default {
 .submit-button {
   color: #fff;
   background-color: #e50914;
-  padding: 1rem;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.5s ease;
 }
