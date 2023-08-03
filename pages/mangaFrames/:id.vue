@@ -11,7 +11,7 @@
     </button>
     <div v-if="loading" class="mt-4">
       Loading...
-      <div v-if="loading" class="mt-4 text-center text-white">
+      <div class="mt-4 text-center text-white">
         Your manga is still being drawn, please wait...
       </div>
       <div class="mt-4 text-center text-white">
@@ -31,6 +31,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import axios from "axios";
 import MangaFrames from "~/components/MangaFrames.vue";
@@ -65,35 +66,43 @@ export default {
       );
       const data = response.data;
 
-      const dialogs = data.manga_story_dialogs;
-
-      // Remove the prefix "Manga story dialogs: "
-      const dialogsWithoutPrefix = dialogs.replace("Manga story dialogs: ", "");
-
       if (!Array.isArray(data.imgur_links)) {
         throw new Error("Invalid imgur_links data format.");
       }
 
       this.frames = data.imgur_links;
 
+      if (!data.manga_story_dialogs || typeof data.manga_story_dialogs !== 'string') {
+        throw new Error("Invalid manga_story_dialogs data format.");
+      }
+
+      const dialogs = data.manga_story_dialogs;
+
+      // Remove the prefix "Manga story dialogs: "
+      const dialogsWithoutPrefix = dialogs.replace("Manga story dialogs: ", "");
+
       const dialogRegEx = /Frame №(\d+):(.+)/;
 
       const dialogsSplit = dialogsWithoutPrefix.split("\n\n");
 
-      dialogsSplit.forEach((dialog) => {
-        const match = dialogRegEx.exec(dialog);
-        if (match) {
-          const frameNumber = match[1];
-          const dialogText = match[2].trim();
-          this.dialogs[`Frame №${frameNumber}`] = dialogText;
-        }
-      });
+      try {
+        dialogsSplit.forEach((dialog) => {
+          const match = dialogRegEx.exec(dialog);
+          if (match) {
+            const frameNumber = match[1];
+            const dialogText = match[2].trim();
+            this.dialogs[`Frame №${frameNumber}`] = dialogText;
+          }
+        });
+      } catch (error) {
+        throw new Error("Error processing dialogs. " + error.message);
+      }
 
-      this.loading = false;
     } catch (error) {
-      this.loading = false;
       this.error = "Failed to fetch manga details. Please try again later.";
       console.error(error);
+    } finally {
+      this.loading = false;
     }
   },
 };
