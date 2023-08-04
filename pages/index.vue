@@ -5,14 +5,14 @@
         <h1 class="font-extrabold text-3xl md:text-6xl text-white">
           Mangai.me - Dive into Personalized Manga Adventures!
         </h1>
-        <img src="https://i.imgur.com/P6Ac62Y.png" alt="Mangai.me Logo" class="logo-img">
+        <img src="@/static/images/background.png" alt="Mangai.me Logo" class="logo-img">
       </div>
       <p class="font-light my-8 text-xl md:text-2xl text-gray-300">
         Unleash your imagination in a universe of unseen, original artworks!
-        <div class="cta-container">
-          <button @click="goToMangaGeneration" class="generate-btn bg-red-500">Generate Manga</button>
-        </div>
       </p>
+      <div class="cta-container">
+        <button @click="goToMangaGeneration" class="generate-btn bg-red-500">Generate Manga</button>
+      </div>
       <hr class="my-8 border-gray-200">
       <RegistrationForm />
       <hr class="my-8 border-gray-200">
@@ -30,6 +30,7 @@
     </div>
   </div>
 </template>
+
 
 <script>
 import axios from 'axios';
