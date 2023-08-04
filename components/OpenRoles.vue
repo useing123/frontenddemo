@@ -20,17 +20,17 @@
         roles: [
           {
             title: "Front-end Developer",
-            stack: "HTML, CSS, JavaScript, React",
+            stack: "HTML, CSS, JavaScript, VueJS",
             description: "You'll be responsible for developing the user-facing part of our application.",
           },
           {
             title: "Back-end Developer",
-            stack: "Node.js, Express, MongoDB",
+            stack: "Python, FastAPI, MongoDB",
             description: "You'll be developing the server-side logic, working with databases, and ensuring high performance and responsiveness.",
           },
           {
             title: "Flutter Developer",
-            stack: "Dart, Flutter, Firebase",
+            stack: "Dart, Flutter, MongoDB",
             description: "You'll develop cross-platform mobile applications using the Flutter framework.",
           },
           {
@@ -40,15 +40,9 @@
           },
           {
             title: "ML Engineer",
-            stack: "Python, Scikit-learn, TensorFlow, PyTorch",
+            stack: "Python, Scikit-learn, TensorFlow, PyTorch, DiffusionModels, GANs",
             description: "You'll be involved in designing, developing, and deploying machine learning models for our projects.",
-          },
-          {
-            title: "Backend Developer",
-            stack: "Node.js, Express, PostgreSQL",
-            description: "You'll work on developing server-side logic and APIs for our applications.",
-          },
-          // Add more roles here
+          }
         ],
       };
     },
