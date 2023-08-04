@@ -1,20 +1,26 @@
 <template>
-  <div class="genre-section bg-gray-900 rounded-lg shadow-md">
+  <div class="bg-black-800 rounded-lg shadow-md p-4">
     <h2 class="text-xl font-bold mb-4 text-white">Select Genres</h2>
     <div class="flex flex-wrap">
       <label
         v-for="genre in genres"
         :key="genre"
-        class="genre-option"
+        class="flex items-center cursor-pointer mr-2 mb-2 px-2 py-1 text-white rounded border border-gray-700"
       >
         <input
           type="checkbox"
           :value="genre"
           @change="updateSelectedGenres"
-          class="genre-checkbox"
+          class="mr-2"
+          :disabled="
+            selectedGenres.length >= 3 && !selectedGenres.includes(genre)
+          "
         />
-        <span class="genre-label">{{ genre }}</span>
+        {{ genre }}
       </label>
+    </div>
+    <div v-if="selectedGenres.length >= 3" class="text-blue-500 mt-2">
+      You can choose only 3 manga genres for the best experience
     </div>
   </div>
 </template>
@@ -29,19 +35,35 @@ export default {
   },
   data() {
     return {
-      genres: ['Shonen', 'Shoujo', 'Seinen', 'Josei', 'Isekai', 'Slice of Life', 'Horror', 'Mecha', 'Sports', 'Supernatural', 'Mystery', 'Historical', 'Psychological', 'Harem', 'Ecchi'],
+      genres: [
+        "Shonen",
+        "Shoujo",
+        "Seinen",
+        "Josei",
+        "Isekai",
+        "Slice of Life",
+        "Horror",
+        "Mecha",
+        "Sports",
+        "Supernatural",
+        "Mystery",
+        "Historical",
+        "Psychological",
+        "Harem",
+        "Ecchi",
+      ],
     };
   },
   methods: {
     updateSelectedGenres(event) {
-      if (event.target.checked) {
+      if (event.target.checked && this.selectedGenres.length < 3) {
         this.selectedGenres.push(event.target.value);
       } else {
         this.selectedGenres = this.selectedGenres.filter(
-          genre => genre !== event.target.value
+          (genre) => genre !== event.target.value
         );
       }
-      this.$emit('input', this.selectedGenres);
+      this.$emit("input", this.selectedGenres);
     },
   },
 };
