@@ -5,7 +5,7 @@
         <h1 class="font-extrabold text-3xl md:text-6xl text-white">
           Mangai.me - Dive into Personalized Manga Adventures!
         </h1>
-        <img src="@/static/images/background.png" alt="Mangai.me Logo" class="logo-img">
+        <img src="https://i.imgur.com/P6Ac62Y.png" alt="Mangai.me Logo" class="logo-img">
       </div>
       <p class="font-light my-8 text-xl md:text-2xl text-gray-300">
         Unleash your imagination in a universe of unseen, original artworks!
@@ -38,6 +38,18 @@ import RegistrationForm from "@/components/RegistrationForm.vue";
 import FAQSection from "@/components/FAQSection.vue";
 
 export default {
+  head: {
+    title: 'Mangai.me - Dive into Personalized Manga Adventures!',
+    meta: [
+      { hid: 'description', name: 'description', content: 'Unleash your imagination in a universe of unseen, original artworks! With personalization at our heart, we are making unseen artworks accessible for everyone.' },
+      { name: 'keywords', content: 'Manga, Personalized Manga, Mangai.me, Manga Adventures' },
+      { property: 'og:title', content: 'Mangai.me - Dive into Personalized Manga Adventures!' },
+      { property: 'og:description', content: 'Unleash your imagination in a universe of unseen, original artworks! With personalization at our heart, we are making unseen artworks accessible for everyone.' },
+      { property: 'og:image', content: 'https://i.imgur.com/P6Ac62Y.png' },
+      { property: 'og:url', content: 'https://www.mangai.me' },
+      // { name: 'twitter:card', content: 'summary_large_image' },
+    ]
+  },
   data() {
     return {
       isLoading: true,

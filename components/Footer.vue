@@ -1,16 +1,13 @@
 <template>
   <footer class="footer mt-8">
     <div class="text-white text-center">
-      <p>Mangai.me by Ossein</p>
-      <p>&copy; 2023</p>
+      <p>Mangai.me by Ossein &copy; 2023</p>
       <p>All Rights Reserved</p>
-      <p>useing322@gmail.com</p>
-      <p>Kaspi.kz donations +7 775 832 63 97</p>
       <div class="footer-links">
         <a href="/privacy-policy">Privacy Policy</a>
         <a href="/terms-of-service">Terms of Service</a>
         <a href="/about-us">About Us</a>
-        <a href="/contact-us">Contact Us</a>
+        <a href="/contacts">Contact Us</a>
       </div>
       <div class="footer-social-icons">
         <a href="https://www.facebook.com/" target="_blank" rel="noopener">
