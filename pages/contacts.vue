@@ -21,6 +21,9 @@
       <button @click="goBack" class="go-back-btn bg-blue-500">
         Back to Homepage
       </button>
+      <!-- <NuxtLink to="http://ko-fi.com/ossein">
+        Support 
+      </NuxtLink> -->
     </div>
   </div>
 </template>
@@ -32,8 +35,10 @@ export default {
   components: {
     OpenRoles,
   },
-  goBack() {
-    this.$router.go(-1);
+  methods: {
+    goBack() {
+      this.$router.push("/");
+    },
   },
 };
 </script>
