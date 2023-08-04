@@ -18,7 +18,7 @@
           {{ link.label }}
         </nuxt-link>
       </div>
-      <div v-if="mobileMenuOpen" class="fixed inset-x-0 bottom-0 bg-white rounded-lg shadow-lg py-2 z-50 w-full flex flex-row justify-around md:hidden">
+      <div class="fixed inset-x-0 bottom-0 bg-white rounded-lg shadow-lg py-2 z-50 w-full flex flex-row justify-around md:hidden">
         <nuxt-link
           v-for="link in filteredNavigationLinks"
           :key="link.to"
@@ -45,7 +45,7 @@ export default {
   },
   data() {
     return {
-      mobileMenuOpen: false,
+      mobileMenuOpen: true,
       supportedLanguages: [
         { label: "English", value: "en" },
         { label: "Русский", value: "ru" },
@@ -57,28 +57,18 @@ export default {
         { label: "Reviews", to: "/mangaReviews", authRequired: true, icon: 'comments' },
         // { label: "Account", to: "/account", authRequired: true, icon: 'user' },
       ],
-      lastScrollPosition: 0,
     };
   },
   mounted() {
     window.addEventListener('resize', this.handleResize);
-    window.addEventListener('scroll', this.handleScroll);
     this.handleResize();
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize);
-    window.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
     handleResize() {
-      this.mobileMenuOpen = window.innerWidth <= 768;
-    },
-    handleScroll() {
-      // Not checking scroll for bottom behavior anymore
-      const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-      const windowHeight = window.innerHeight;
-      this.mobileMenuOpen = currentScrollPosition < this.lastScrollPosition || currentScrollPosition === 0;
-      this.lastScrollPosition = currentScrollPosition;
+      // We don't need to change mobileMenuOpen based on the window size anymore.
     },
   },
 };
