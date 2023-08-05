@@ -23,10 +23,12 @@ export default {
 };
 </script>
   
-<style scoped>
-body,
-html {
+<style>
+body{
   background-color: #141414;
+}
+html {
+  /* background-color:  */
   margin: 0;
   padding: 0;
   font-size: 16px;
