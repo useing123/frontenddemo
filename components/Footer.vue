@@ -13,11 +13,11 @@
         <a href="https://www.facebook.com/" target="_blank" rel="noopener">
           <!-- <img src="facebook-icon.png" alt="Facebook"> -->
         </a>
-        <a href="https://twitter.com/" target="_blank" rel="noopener">
-          <!-- <img src="twitter-icon.png" alt="Twitter"> -->
+        <a href="https://www.tiktok.com/@mangai.me" target="_blank" rel="noopener">
+          <img src="@/assets/icons/tik-tok.png" alt="Twitter">
         </a>
-        <a href="https://www.instagram.com/" target="_blank" rel="noopener">
-          <!-- <img src="instagram-icon.png" alt="Instagram"> -->
+        <a href="https://www.instagram.com/mangai.me/" target="_blank" rel="noopener">
+          <img src="@/assets/icons/instagram.png" alt="Instagram">
         </a>
       </div>
     </div>

@@ -18,7 +18,8 @@
       <p class="font-light my-8 text-xl md:text-2xl text-gray-300">We love hearing from our users! Reach out to us with any questions, comments, or feedback.</p>
       <div class="socials">
         <a href="mailto:useing322@gmail.com" class="contact-link">Email us at useing322@gmail.com</a>
-        <a href="https://www.instagram.com/feweeksaway" class="contact-link">Follow us on Instagram</a>
+        <a href="https://www.instagram.com/mangai.me" class="contact-link">Follow us on Instagram</a>
+        <a href="https://www.tiktok.com/@mangai.me" class="contact-link">Follow us on Tik-Tok</a>
       </div>
       
       <hr class="my-8 border-gray-200">
