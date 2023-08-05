@@ -13,13 +13,14 @@
       <p v-if="mangaDetails.main_characters"><strong>Main Characters:</strong> {{ mangaDetails.main_characters }}</p>
       <p v-if="mangaDetails.manga_chapters_story"><strong>Story:</strong> {{ mangaDetails.manga_chapters_story }}</p>
       <router-link
-        v-if="mangaDetails.manga_id && mangaDetails.imgur_links"
+        v-if="mangaDetails.manga_id && mangaDetails.imgur_links && mangaDetails.imgur_links.length > 0"
         :to="`/mangaFrames/${mangaDetails.manga_id}`"
       >
         <button class="bg-red-500 text-white px-8 py-2 rounded-lg mt-4">
           Read
         </button>
       </router-link>
+      <p v-if="mangaDetails.imgur_links && mangaDetails.imgur_links.length > 0" class="mt-4 text-green-500">Your manga is ready for read</p>
     </div>
 
     <div v-if="error" class="mt-4 text-red-500">Oops, something went wrong while fetching the manga details. Please try again or contact support.</div>
@@ -34,11 +35,73 @@
     <section class="mt-8">
       <h2 class="text-lg font-bold text-white">Instructions</h2>
       <div class="mt-4 text-white">
-        <p>Here is where you would put instructions for using your application...</p>
+        <p class="text-green-500">The process of generating Manga takes about 10-15 minutes so you can leave your computer open</p>
       </div>
     </section>
   </div>
 </template>
+
+<script>
+import axios from "axios";
+import Cookies from "js-cookie";
+
+export default {
+  data() {
+    return {
+      mangaDetails: null,
+      loading: true,
+      error: null,
+      loadingPercentage: 0,
+    };
+  },
+  created() {
+    this.fetchMangaDetails();
+  },
+  watch: {
+    '$route.params.id': {
+      immediate: true,
+      handler() {
+        this.fetchMangaDetails();
+      },
+    },
+  },
+  methods: {
+    goBack() {
+      this.$router.go(-1);
+    },
+    async fetchMangaDetails() {
+      try {
+        const jwt = Cookies.get("jwt");
+        const response = await axios.get(
+          `https://fastapi-9a00.onrender.com/manga/read/${this.$route.params.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+          }
+        );
+        
+        if (response.data.imgur_links) {
+          this.mangaDetails = response.data;
+          this.loadingPercentage = (this.mangaDetails.chapters_title.length / this.mangaDetails.chapters_count) * 100;
+          this.loading = this.loadingPercentage < 100;
+          this.error = null;
+        } else {
+          // retry after 5 seconds if imgur_links is not yet available
+          setTimeout(this.fetchMangaDetails, 5000);
+        }
+        
+      } catch (error) {
+        console.error(error);
+        this.loading = false;
+        this.loadingPercentage = 0;
+        this.error = 'Oops, something went wrong while fetching the manga details. Please try again or contact support.';
+      }
+    },
+  },
+};
+</script>
+
 
 <style scoped>
 /* Improved styling for better UX and aesthetics */
@@ -113,63 +176,3 @@ button:hover {
 }
 </style>
 
-<script>
-import axios from "axios";
-import Cookies from "js-cookie";
-
-export default {
-  data() {
-    return {
-      mangaDetails: null,
-      loading: true,
-      error: null,
-      loadingPercentage: 0,
-    };
-  },
-  created() {
-    this.fetchMangaDetails();
-  },
-  watch: {
-    '$route.params.id': {
-      immediate: true,
-      handler() {
-        this.fetchMangaDetails();
-      },
-    },
-  },
-  methods: {
-    goBack() {
-      this.$router.go(-1);
-    },
-    async fetchMangaDetails() {
-      try {
-        const jwt = Cookies.get("jwt");
-        const response = await axios.get(
-          `https://fastapi-9a00.onrender.com/manga/read/${this.$route.params.id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${jwt}`,
-            },
-          }
-        );
-        
-        if (response.data.imgur_links) {
-          this.mangaDetails = response.data;
-          this.loadingPercentage = (this.mangaDetails.chapters_title.length / this.mangaDetails.chapters_count) * 100;
-          this.loading = this.loadingPercentage < 100;
-          this.error = null;
-        } else {
-          // retry after 5 seconds if imgur_links is not yet available
-          setTimeout(this.fetchMangaDetails, 5000);
-        }
-        
-      } catch (error) {
-        console.error(error);
-        this.loading = false;
-        this.loadingPercentage = 0;
-        this.error = 'Oops, something went wrong while fetching the manga details. Please try again or contact support.';
-      }
-    },
-  },
-};
-</script>

@@ -1,50 +1,53 @@
 <template>
-    <button v-show="isShown" class="scroll-top-button" @click="scrollTop">
-      Scroll to top
-    </button>
+  <button v-show="isShown" class="scroll-top-button" @click="scrollTop">
+    <icon name="chevron-up"></icon>
+  </button>
 </template>
-  
+
 <script>
 export default {
-    data() {
-      return {
-        isShown: false,
-      };
+  data() {
+    return {
+      isShown: false,
+    };
+  },
+  methods: {
+    checkScroll() {
+      this.isShown = window.scrollY > 200;
     },
-    methods: {
-      checkScroll() {
-        this.isShown = window.scrollY > 200;
-      },
-      scrollTop() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      },
+    scrollTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     },
-    created() {
-      window.addEventListener('scroll', this.checkScroll);
-    },
-    destroyed() {
-      window.removeEventListener('scroll', this.checkScroll);
-    },
+  },
+  created() {
+    window.addEventListener('scroll', this.checkScroll);
+  },
+  destroyed() {
+    window.removeEventListener('scroll', this.checkScroll);
+  },
 };
 </script>
-  
+
 <style scoped>
 .scroll-top-button {
   position: fixed;
-  bottom: 2em;
+  bottom: 5em;
   right: 2em;
   padding: 1em;
-  background: #E53E3E; /* Adjust to match your design */
+  background: #ffffff; /* Adjust to match your design */
   color: #FFF;
   border: none;
   cursor: pointer;
-  border-radius: 0.25rem;
+  border-radius: 50%;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+  z-index: 1000;
 }
 
-@media (max-width: 600px) {
-  .frame {
-    width: 100%;
-  }
+.scroll-top-button i {
+  font-size: 1.5rem;
 }
 </style>

@@ -10,7 +10,7 @@
       </div>
       <div class="hidden md:flex gap-6">
         <nuxt-link
-          v-for="link in filteredNavigationLinks"
+          v-for="link in navigationLinks"
           :key="link.to"
           :to="link.to"
           class="transition-colors duration-300 ease-in-out text-base md:text-lg hover:text-yellow-500"
@@ -20,7 +20,7 @@
       </div>
       <div class="fixed inset-x-0 bottom-0 bg-white rounded-lg shadow-lg py-2 z-50 w-full flex flex-row justify-around md:hidden">
         <nuxt-link
-          v-for="link in filteredNavigationLinks"
+          v-for="link in navigationLinks"
           :key="link.to"
           :to="link.to"
           class="flex flex-col items-center"
@@ -38,9 +38,6 @@ export default {
   computed: {
     isAuthenticated() {
       return this.$store.state.isAuthenticated;
-    },
-    filteredNavigationLinks() {
-      return this.navigationLinks.filter((link) => this.isAuthenticated || !link.authRequired);
     },
   },
   data() {
