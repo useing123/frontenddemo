@@ -26,6 +26,7 @@ export default {
 <style scoped>
 body,
 html {
+  background-color: #141414;
   margin: 0;
   padding: 0;
   font-size: 16px;
