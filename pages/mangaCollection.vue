@@ -157,16 +157,16 @@ export default {
 
 <style scoped>
 .app-container {
-  max-width: 1200px; /* Set a max-width for the container */
-  margin: auto; /* Center the container */
+  max-width: 1600px; /* Set a max-width for the container */
 }
 
 .filters {
+  max-width: 800px; /* Limit the width of the filters */
   width: 100%; /* Make the filters take up the full width of the container */
 }
 
 .generate-manga-button {
-  order: -1; /* Show the generate manga button first on small screens */
+  flex-shrink: 0; /* Prevent the button from shrinking */
 }
 
 .search-input, .genre-select {
