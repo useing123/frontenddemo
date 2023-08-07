@@ -10,17 +10,26 @@
       </div>
       <div class="hidden md:flex gap-6">
         <nuxt-link
-          v-for="link in navigationLinks"
+          v-for="link in internalLinks"
           :key="link.to"
           :to="link.to"
           class="transition-colors duration-300 ease-in-out text-base md:text-lg hover:text-yellow-500"
         >
           {{ link.label }}
         </nuxt-link>
+        <a
+          v-for="link in externalLinks"
+          :key="link.to"
+          :href="link.to"
+          target="_blank"
+          class="transition-colors duration-300 ease-in-out text-base md:text-lg hover:text-yellow-500"
+        >
+          {{ link.label }}
+        </a>
       </div>
       <div class="fixed inset-x-0 bottom-0 bg-white rounded-lg shadow-lg py-2 z-50 w-full flex flex-row justify-around md:hidden">
         <nuxt-link
-          v-for="link in navigationLinks"
+          v-for="link in internalLinks"
           :key="link.to"
           :to="link.to"
           class="flex flex-col items-center"
@@ -28,6 +37,16 @@
           <icon :name="link.icon" size="2x"></icon>
           <span class="mt-2 text-black">{{ link.label }}</span>
         </nuxt-link>
+        <a
+          v-for="link in externalLinks"
+          :key="link.to"
+          :href="link.to"
+          target="_blank"
+          class="flex flex-col items-center"
+        >
+          <icon :name="link.icon" size="2x"></icon>
+          <span class="mt-2 text-black">{{ link.label }}</span>
+        </a>
       </div>
     </div>
   </header>
@@ -48,11 +67,13 @@ export default {
         { label: "Русский", value: "ru" },
         { label: "Qazaq", value: "kz" },
       ],
-      navigationLinks: [
+      internalLinks: [
         { label: "Read manga", to: "/mangaCollection", authRequired: true, icon: 'book' },
         { label: "Generate Manga", to: "/mangaGeneration", authRequired: true, icon: 'magic' },
         { label: "Reviews", to: "/mangaReviews", authRequired: true, icon: 'comments' },
-        // { label: "Account", to: "/account", authRequired: true, icon: 'user' },
+      ],
+      externalLinks: [
+        { label: "Help up", to: "https://forms.gle/4vQ8y9EDvmDytmT66", authRequired: true, icon: 'user' },
       ],
     };
   },
