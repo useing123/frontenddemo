@@ -1,18 +1,18 @@
 <template>
   <div class="manga-container">
-    <div
-      v-for="(imageUrl, frameName, index) in frames"
-      :key="index"
-      class="frame"
-    >
-      <canvas
-        :ref="frameName"
-        :width="canvasWidth"
-        :height="canvasHeight"
-      ></canvas>
+    <div v-for="(imageUrl, frameName, index) in frames" :key="index">
+      <div class="frame">
+        <div :ref="frameName + 'Text'" class="text-container" v-if="dialogs && dialogs[`Frame №${Number(frameName) + 1}`]">
+          {{ dialogs[`Frame №${Number(frameName) + 1}`] }}
+        </div>
+        <canvas :ref="frameName" :width="canvasWidth" :height="canvasHeight"></canvas>
+      </div>
+      <!-- Adding a black square of 200px height between frames -->
+      <div v-if="index < frames.length - 1" class="black-square"></div>
     </div>
   </div>
 </template>
+
 
 <script>
 export default {
@@ -29,90 +29,46 @@ export default {
   data() {
     return {
       canvasWidth: 800,
-      canvasHeight: 600,
+      canvasHeight: 800, // Increased height for a more vertical scroll which is typical for Webtoon-style mangas
+      preloadedImages: [],
     };
   },
-  mounted() {
-    this.$nextTick(() => {
-      this.generateMangaFrames();
-    });
-  },
   methods: {
+    async preloadImages() {
+      this.preloadedImages = await Promise.all(this.frames.map(url => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.src = url;
+          img.onload = () => resolve(img);
+          img.onerror = reject;
+        });
+      }));
+    },
     generateMangaFrames() {
       for (let frameName in this.frames) {
         const canvasElement = this.$refs[frameName][0];
         if (canvasElement) {
           const ctx = canvasElement.getContext("2d");
-
-          // Create an image element for the frame
-          const img = new Image();
-          img.src = this.frames[frameName];
+          const img = this.preloadedImages[frameName];
 
           // Draw the image on the canvas
-          img.onload = () => {
-            ctx.drawImage(img, 0, 0, this.canvasWidth, this.canvasHeight);
-
-            // Draw the manga cloud with dialog on the canvas
-            if (
-              this.dialogs &&
-              this.dialogs[`Frame №${Number(frameName) + 1}`]
-            ) {
-              this.drawMangaCloud(
-                ctx,
-                this.dialogs[`Frame №${Number(frameName) + 1}`]
-              );
-            }
-          };
+          ctx.drawImage(img, 0, 0, this.canvasWidth, this.canvasHeight);
         }
       }
     },
-    drawMangaCloud(ctx, dialog) {
-  // Set font properties
-  const fontSize = 20;
-  const fontFamily = "Arial"; 
-  ctx.font = `${fontSize}px ${fontFamily}`;
-  ctx.textAlign = "right";
-
-  // Split the dialog into lines
-  const words = dialog.split(' ');
-  const lines = [];
-  let currentLine = words[0];
-
-  for (let i = 1; i < words.length; i++) {
-    const word = words[i];
-    const width = ctx.measureText(currentLine + ' ' + word).width;
-    if (width < this.canvasWidth - 80) {
-      currentLine += ' ' + word;
-    } else {
-      lines.push(currentLine);
-      currentLine = word;
+  },
+  async mounted() {
+    try {
+      await this.preloadImages();
+      this.generateMangaFrames();
+    } catch (error) {
+      console.error("Error while preloading images:", error);
     }
-  }
-  lines.push(currentLine);
-
-  // Draw each line on the canvas
-  lines.forEach((line, index) => {
-    const x = this.canvasWidth - 40;  // 40px padding from the right edge
-    const y = 40 + index * (fontSize + 10);  // 40px padding from the top edge, 10px line spacing
-
-    // Draw the cloud background
-    ctx.fillStyle = "white";
-    const cloudWidth = ctx.measureText(line).width + 20;  // 20px padding
-    const cloudHeight = fontSize + 10;  // 10px padding
-    const cloudX = x - cloudWidth + 10;  // 10px padding
-    const cloudY = y - fontSize;
-    ctx.fillRect(cloudX, cloudY, cloudWidth, cloudHeight);
-
-    // Render the text on the canvas
-    ctx.fillStyle = "black";
-    ctx.fillText(line, x, y);
-  });
-},
   },
 };
 </script>
 
-<style>
+<style scoped>
 .manga-container {
   display: flex;
   flex-direction: column;
@@ -121,9 +77,34 @@ export default {
 
 .frame {
   margin-bottom: 20px;
+  position: relative;
 }
 
 canvas {
   max-width: 100%;
+}
+
+.text-container {
+  position: absolute;
+  bottom: 0; 
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  color: white;
+  padding: 10px;
+  overflow: hidden;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bangers', cursive;
+}
+
+/* Style for the black square */
+.black-square {
+  background-color: black;
+  width: 100%;
+  height: 200px;
 }
 </style>

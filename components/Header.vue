@@ -72,9 +72,9 @@ export default {
         { label: "Generate Manga", to: "/mangaGeneration", authRequired: true, icon: 'magic' },
         { label: "Reviews", to: "/mangaReviews", authRequired: true, icon: 'comments' },
       ],
-      externalLinks: [
-        { label: "Help up", to: "https://forms.gle/4vQ8y9EDvmDytmT66", authRequired: true, icon: 'user' },
-      ],
+      // externalLinks: [
+      //   { label: "Help up", to: "https://forms.gle/4vQ8y9EDvmDytmT66", authRequired: true, icon: 'user' },
+      // ],
     };
   },
   mounted() {

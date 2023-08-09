@@ -9,9 +9,9 @@
       We are working on removing authorization for manga generation, but please log in
     </h3>
     <h3 class="text-2xl font-bold mb-4 text-orange-500">
-      <a href="https://forms.gle/4vQ8y9EDvmDytmT66" target="_blank" class="text-orange-500">
+      <!-- <a href="https://forms.gle/4vQ8y9EDvmDytmT66" target="_blank" class="text-orange-500">
         Heeey can you help us to upgrade our platform? Please submit this form 
-      </a>
+      </a> -->
     </h3>
     <form class="flex flex-col mt-4 w-full" @submit.prevent="submitForm">
       <div class="form-group">
