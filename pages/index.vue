@@ -11,22 +11,8 @@
         Unleash your imagination in a universe of unseen, original artworks!
       </p>
       <div class="cta-container">
-        <button @click="goToMangaGeneration" class="generate-btn bg-red-500">Generate Manga</button>
+        <button @click="goToMangaGeneration" class="generate-btn">Generate Manga</button>
       </div>
-      <hr class="my-8 border-gray-200">
-      <RegistrationForm />
-      <hr class="my-8 border-gray-200">
-      <hr class="my-8 border-gray-200">
-      <div class="team-container">
-        <CookieConsent />
-        <div>
-          <h2 class="font-semibold text-2xl text-white">Who We Are</h2>
-          <p class="font-light my-8 text-xl md:text-2xl text-gray-300">At Mangai.me, we're transforming the way you experience manga. With personalization at our heart, we're making unseen artworks accessible for everyone.</p>
-        </div>
-      </div>
-      <hr class="my-8 border-gray-200">
-      <FAQSection />
-      <hr class="my-8 border-gray-200">
     </div>
   </div>
 </template>
@@ -34,8 +20,6 @@
 
 <script>
 import axios from 'axios';
-import RegistrationForm from "@/components/RegistrationForm.vue";
-import FAQSection from "@/components/FAQSection.vue";
 
 export default {
   head: {
@@ -47,17 +31,12 @@ export default {
       { property: 'og:description', content: 'Unleash your imagination in a universe of unseen, original artworks! With personalization at our heart, we are making unseen artworks accessible for everyone.' },
       { property: 'og:image', content: 'https://i.imgur.com/P6Ac62Y.png' },
       { property: 'og:url', content: 'https://www.mangai.me' },
-      // { name: 'twitter:card', content: 'summary_large_image' },
     ]
   },
   data() {
     return {
       isLoading: true,
     };
-  },
-  components: {
-    RegistrationForm,
-    FAQSection,
   },
   methods: {
     goToMangaGeneration() {
@@ -76,6 +55,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 .logo-container {
