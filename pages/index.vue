@@ -14,7 +14,7 @@
         <button @click="goToMangaGeneration" class="generate-btn bg-red-500">Generate Manga</button>
       </div>
       <hr class="my-8 border-gray-200">
-      <RegistrationForm />
+      <!-- <RegistrationForm />
       <hr class="my-8 border-gray-200">
       <hr class="my-8 border-gray-200">
       <div class="team-container">
@@ -26,7 +26,7 @@
       </div>
       <hr class="my-8 border-gray-200">
       <FAQSection />
-      <hr class="my-8 border-gray-200">
+      <hr class="my-8 border-gray-200"> -->
     </div>
   </div>
 </template>
